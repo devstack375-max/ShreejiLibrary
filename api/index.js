@@ -7,21 +7,23 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Firebase Configuration for Vercel Serverless environment
+// Firebase Configuration read from Vercel process.env variables
 const firebaseConfig = {
-  apiKey: process.env.VITE_FIREBASE_API_KEY || "AIzaSyDkp9wdQuCtDIe6nMU5kC7wXgAkCMmWhtI",
-  authDomain: "shreejilibrary-b6c67.firebaseapp.com",
-  projectId: "shreejilibrary-b6c67",
-  storageBucket: "shreejilibrary-b6c67.firebasestorage.app",
-  messagingSenderId: "605142151573",
-  appId: "1:605142151573:web:b3f4b2cca08b4e48eb869c",
-  measurementId: "G-4WBSW2FCZG"
+  apiKey: process.env.VITE_FIREBASE_API_KEY,
+  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VITE_FIREBASE_APP_ID,
+  measurementId: process.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 let db = null;
 try {
-  const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-  db = getFirestore(firebaseApp);
+  if (firebaseConfig.apiKey) {
+    const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+    db = getFirestore(firebaseApp);
+  }
 } catch (e) {
   console.error("Vercel Firebase init error:", e);
 }

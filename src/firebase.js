@@ -2,23 +2,27 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDkp9wdQuCtDIe6nMU5kC7wXgAkCMmWhtI",
-  authDomain: "shreejilibrary-b6c67.firebaseapp.com",
-  projectId: "shreejilibrary-b6c67",
-  storageBucket: "shreejilibrary-b6c67.firebasestorage.app",
-  messagingSenderId: "605142151573",
-  appId: "1:605142151573:web:b3f4b2cca08b4e48eb869c",
-  measurementId: "G-4WBSW2FCZG"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 let db = null;
 let isFirebaseReady = false;
 
 try {
-  const app = initializeApp(firebaseConfig);
-  db = getFirestore(app);
-  isFirebaseReady = true;
-  console.log("🔥 Firebase initialized successfully for ShreeJi Reading Library");
+  if (firebaseConfig.apiKey) {
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    isFirebaseReady = true;
+    console.log("🔥 Firebase initialized via Environment Variables");
+  } else {
+    console.warn("⚠️ Firebase environment variables not set.");
+  }
 } catch (e) {
   console.error("Firebase initialization error:", e);
 }

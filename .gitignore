@@ -11,18 +11,18 @@ lerna-debug.log*
 server/bookings_store.json
 
 # Dependencies
-node_modules
-.pnpm-store
+node_modules/
+.pnpm-store/
 
 # Production build
-dist
-dist-ssr
+dist/
+dist-ssr/
 *.local
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
@@ -30,7 +30,7 @@ dist-ssr
 *.sln
 *.sw?
 
-# Environment
+# Environment & Secret files
 .env
 .env.local
 .env.development.local
