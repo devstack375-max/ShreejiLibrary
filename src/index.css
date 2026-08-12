@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-primary: #983132;
+    --color-primary-hover: #7f2728;
+    --color-secondary: #EB6A30;
+    --color-secondary-hover: #d5571e;
+    --color-dark: #201E1F;
+    --color-bg-main: #FFFFFF;
+    --color-bg-soft: #FFF8F5;
+    --color-highlight-red: #F5E4E4;
+    --color-highlight-orange: #FFF0E8;
+  }
+
+  body {
+    background-color: var(--color-bg-main);
+    color: var(--color-dark);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-serif-accent {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+/* Custom Utilities */
+.bg-brand-primary { background-color: #983132; }
+.bg-brand-secondary { background-color: #EB6A30; }
+.bg-brand-dark { background-color: #201E1F; }
+.bg-brand-soft { background-color: #FFF8F5; }
+.bg-brand-light-red { background-color: #F5E4E4; }
+.bg-brand-light-orange { background-color: #FFF0E8; }
+
+.text-brand-primary { color: #983132; }
+.text-brand-secondary { color: #EB6A30; }
+.text-brand-dark { color: #201E1F; }
+
+.border-brand-primary { border-color: #983132; }
+.border-brand-secondary { border-color: #EB6A30; }
+.border-brand-light-red { border-color: #F5E4E4; }
+
+/* Custom Glassmorphic & Animation Utilities */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-dark {
+  background: rgba(32, 30, 31, 0.92);
+  backdrop-filter: blur(12px);
+}
+
+.card-hover-shadow {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-hover-shadow:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -15px rgba(152, 49, 50, 0.12);
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
