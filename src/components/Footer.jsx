@@ -1,12 +1,11 @@
 import React from 'react';
-import { Phone, Mail, MapPin, Clock, ArrowUp } from 'lucide-react';
 
 export default function Footer() {
   return (
     <footer className="bg-[#201E1F] text-white pt-16 pb-12 border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-8 border-b border-white/10">
           
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
@@ -34,7 +33,7 @@ export default function Footer() {
               <li><a href="#about" className="hover:text-[#EB6A30] transition-colors">About Us</a></li>
               <li><a href="#features" className="hover:text-[#EB6A30] transition-colors">Why Us</a></li>
               <li><a href="#plans" className="hover:text-[#EB6A30] transition-colors">Membership Plans</a></li>
-              <li><a href="#seatmap" className="hover:text-[#EB6A30] transition-colors">Live Seat Map</a></li>
+              <li><a href="#facilities" className="hover:text-[#EB6A30] transition-colors">Facilities</a></li>
               <li><a href="#gallery" className="hover:text-[#EB6A30] transition-colors">Photo Gallery</a></li>
               <li><a href="#faq" className="hover:text-[#EB6A30] transition-colors">FAQ</a></li>
             </ul>
@@ -67,17 +66,9 @@ export default function Footer() {
 
         </div>
 
-        {/* Bottom Strip */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#F5E4E4]/60">
-          <p>Designed for ShreeJi Reading Library • Powered by React & Node.js</p>
-          
-          <a
-            href="#top"
-            className="flex items-center gap-1.5 text-white hover:text-[#EB6A30] transition-colors font-semibold uppercase tracking-wider"
-          >
-            <span>Back to top</span>
-            <ArrowUp className="w-4 h-4" />
-          </a>
+        {/* Bottom Copyright */}
+        <div className="pt-6 text-center text-xs text-[#F5E4E4]/50">
+          ShreeJi Reading Library • India Gate, New Delhi
         </div>
 
       </div>

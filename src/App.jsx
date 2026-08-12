@@ -13,6 +13,7 @@ import FAQSection from './components/FAQSection';
 import LocationContact from './components/LocationContact';
 import BookingForm from './components/BookingForm';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -30,7 +31,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#201E1F] selection:bg-[#EB6A30] selection:text-white">
+    <div className="min-h-screen bg-white text-[#201E1F] selection:bg-[#EB6A30] selection:text-white relative">
       
       {/* Navigation Header */}
       <Navbar 
@@ -77,6 +78,9 @@ export default function App() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Floating Go To Top Button */}
+      <ScrollToTop />
 
     </div>
   );
