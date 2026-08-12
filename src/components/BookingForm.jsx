@@ -73,7 +73,7 @@ export default function BookingForm({ selectedPlan }) {
     if (firestoreSaved) {
       setToast({
         type: 'success',
-        text: 'Booking Request Sent! Saved to Database. Our coordinator will contact you within 1 hour to hold your seat.'
+        text: 'Booking Request Sent. Our coordinator will contact you within 1 hour to hold your seat.'
       });
       setFormData({
         name: '',
