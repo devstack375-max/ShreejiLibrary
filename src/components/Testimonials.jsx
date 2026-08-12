@@ -24,22 +24,36 @@ export default function Testimonials() {
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
       text: 'Having my personal desk set up every morning meant I never wasted a single minute. The staff is polite and strictly maintains silence across all reading rooms.',
       stars: 5
+    },
+    {
+      name: 'Ananya Sharma',
+      exam: 'NEET AIR 340',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
+      text: 'The peaceful atmosphere allowed me to focus on biology marathons without any phone or noise distractions. The complimentary tea/coffee breaks are a great refresh!',
+      stars: 5
+    },
+    {
+      name: 'Rohit Patel',
+      exam: 'JEE Advanced Rank 512',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
+      text: 'Super high speed dual fiber Wi-Fi and power sockets at every desk. Solved physics problems for 12 hours straight every single day.',
+      stars: 5
+    },
+    {
+      name: 'Priyanshi Verma',
+      exam: 'SSC CGL Selected',
+      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
+      text: 'Clean, highly secure with CCTV, clean washrooms, and very supportive management. Truly a sanctuary for competitive exam preparation.',
+      stars: 5
     }
   ];
 
-  const containerVariants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.12 } }
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.55 } }
-  };
+  // Duplicate list to create a seamless infinite horizontal loop
+  const doubleReviews = [...reviews, ...reviews];
 
   return (
-    <section className="py-24 bg-[#FFF8F5] text-[#201E1F]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 bg-[#FFF8F5] text-[#201E1F] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
         
         {/* Header */}
         <motion.div
@@ -47,7 +61,7 @@ export default function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="text-center max-w-3xl mx-auto"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="h-[1px] w-8 bg-[#983132]" />
@@ -59,25 +73,21 @@ export default function Testimonials() {
             What our members say.
           </h2>
           <p className="mt-3 text-lg text-[#201E1F]/70">
-            Trusted by hundreds of serious learners and competitive exam achievers.
+            Trusted by hundreds of serious learners and competitive exam achievers. Hover over any card to pause.
           </p>
         </motion.div>
 
-        {/* Testimonial Cards */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-40px' }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
-        >
-          {reviews.map((rev, idx) => (
-            <motion.div 
+      </div>
+
+      {/* Infinite Horizontal Rotating Slider with CSS animation-play-state: paused on hover */}
+      <div className="relative w-full overflow-hidden py-4">
+        <div className="animate-marquee gap-6">
+          {doubleReviews.map((rev, idx) => (
+            <div 
               key={idx}
-              variants={cardVariants}
-              className="bg-white p-8 rounded-3xl border border-[#F5E4E4] shadow-md flex flex-col justify-between relative group hover:border-[#EB6A30] transition-colors"
+              className="w-[360px] sm:w-[420px] bg-white p-8 rounded-3xl border border-[#F5E4E4] shadow-md flex flex-col justify-between relative group/card hover:border-[#EB6A30] transition-colors shrink-0 cursor-pointer"
             >
-              <Quote className="absolute top-6 right-6 w-8 h-8 text-[#FFF0E8] group-hover:text-[#F5E4E4] transition-colors" />
+              <Quote className="absolute top-6 right-6 w-8 h-8 text-[#FFF0E8] group-hover/card:text-[#F5E4E4] transition-colors" />
 
               <div>
                 <div className="flex items-center gap-1 text-[#EB6A30] mb-6">
@@ -106,11 +116,11 @@ export default function Testimonials() {
                 </div>
               </div>
 
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
-
+        </div>
       </div>
+
     </section>
   );
 }

@@ -33,7 +33,7 @@ export default function LocationContact() {
                 Come find us.
               </h2>
               <p className="mt-4 text-base sm:text-lg text-[#201E1F]/70">
-                Located in a quiet academic neighborhood with easy parking and public transit access.
+                Located in a quiet academic neighborhood near India Gate with easy parking and public transit access.
               </p>
             </div>
 
@@ -52,7 +52,7 @@ export default function LocationContact() {
                 <div>
                   <h4 className="font-bold text-[#201E1F] text-base">Library Location</h4>
                   <p className="text-sm text-[#201E1F]/80 mt-1">
-                    2nd Floor, ShreeJi Academic Hub, Near University Commerce College Circle, Main Road.
+                    Rajpath Area, Near India Gate, Central Secretariat, New Delhi, Delhi 110001
                   </p>
                 </div>
               </motion.div>
@@ -99,7 +99,7 @@ export default function LocationContact() {
 
           </motion.div>
 
-          {/* Map Visual Card */}
+          {/* Interactive Google Map for India Gate */}
           <motion.div
             initial={{ opacity: 0, x: 40, scale: 0.95 }}
             whileInView={{ opacity: 1, x: 0, scale: 1 }}
@@ -107,27 +107,17 @@ export default function LocationContact() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="lg:col-span-6"
           >
-            <div className="bg-white p-4 rounded-3xl border border-[#F5E4E4] shadow-xl relative overflow-hidden">
-              <div className="relative rounded-2xl overflow-hidden h-[420px] bg-[#FFF8F5]">
-                <div className="absolute inset-0 bg-[radial-gradient(#983132_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-20" />
-                
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                  <motion.div
-                    animate={{ y: [0, -8, 0] }}
-                    transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-                    className="w-16 h-16 rounded-full bg-[#983132] text-white flex items-center justify-center shadow-xl mb-4"
-                  >
-                    <MapPin className="w-8 h-8 text-[#EB6A30]" />
-                  </motion.div>
-                  <h3 className="text-2xl font-bold text-[#201E1F] mb-1">ShreeJi Reading Library</h3>
-                  <p className="text-xs text-[#201E1F]/70 max-w-xs mb-4">
-                    Prime Quiet Location • Air Conditioned • Private Lockers
-                  </p>
-                  <span className="bg-[#FFF0E8] border border-[#EB6A30] text-[#983132] font-bold text-xs px-4 py-2 rounded-full shadow-sm">
-                    Open Daily 6:00 AM – 11:00 PM
-                  </span>
-                </div>
-              </div>
+            <div className="bg-white p-3 rounded-3xl border border-[#F5E4E4] shadow-xl relative overflow-hidden h-[420px]">
+              <iframe
+                title="India Gate Location Map"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5620641617477!2d77.2270034762024!3d28.612911975674723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce2daa9eb4d0b%3A0x717971125923e5d!2sIndia%20Gate!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style={{ border: 0, borderRadius: '1.25rem' }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
           </motion.div>
 

@@ -32,13 +32,17 @@ export default function Navbar({ onOpenBooking }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           
-          {/* Logo */}
-          <a href="#top" className="flex items-center gap-3 group">
-            <div className="bg-white px-3 py-1.5 rounded-xl shadow-md border border-[#F5E4E4] flex items-center justify-center">
+          {/* Logo - White pill box when at top over hero, blends cleanly into navbar on scroll */}
+          <a href="#top" className="flex items-center gap-3 group shrink-0">
+            <div className={`transition-all duration-300 flex items-center justify-center ${
+              scrolled 
+                ? 'bg-transparent p-0 shadow-none border-0' 
+                : 'bg-white px-3.5 py-1.5 rounded-xl shadow-md border border-white/20'
+            }`}>
               <img 
                 src="/assets/logo.jpg" 
                 alt="ShreeJi Reading Library Logo" 
-                className="h-8.5 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                className="h-9 w-auto object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-105"
               />
             </div>
           </a>
@@ -79,7 +83,7 @@ export default function Navbar({ onOpenBooking }) {
           <div className="md:hidden flex items-center gap-2">
             <button
               onClick={onOpenBooking}
-              className="bg-[#983132] text-white text-xs font-semibold px-3 py-2 rounded-full"
+              className="bg-[#983132] text-white text-xs font-semibold px-3.5 py-2 rounded-full shadow-sm"
             >
               Book
             </button>
