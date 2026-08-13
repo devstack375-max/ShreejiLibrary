@@ -100,7 +100,7 @@ export default function BookingForm({ selectedPlan }) {
   };
 
   return (
-    <section className="py-24 bg-[#201E1F] text-white relative overflow-hidden">
+    <section id="booking" className="py-24 bg-[#201E1F] text-white relative overflow-hidden">
       
       {/* Background Radial Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#983132]/25 blur-[140px] pointer-events-none" />

@@ -19,7 +19,7 @@ export default function App() {
   const [selectedPlan, setSelectedPlan] = useState(null);
 
   const scrollToBooking = () => {
-    const el = document.getElementById('contact');
+    const el = document.getElementById('booking') || document.getElementById('contact');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }

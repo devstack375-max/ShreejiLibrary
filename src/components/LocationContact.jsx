@@ -6,7 +6,7 @@ export default function LocationContact() {
   return (
     <section id="contact" className="py-24 bg-[#FFF8F5] text-[#201E1F]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -20,7 +20,7 @@ export default function LocationContact() {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -38,7 +38,7 @@ export default function LocationContact() {
             </div>
 
             <div className="space-y-6">
-              
+
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -89,7 +89,7 @@ export default function LocationContact() {
                 <div>
                   <h4 className="font-bold text-[#201E1F] text-base">Direct Contact</h4>
                   <p className="text-sm text-[#201E1F]/80 mt-1">
-                    Phone: <a href="tel:+919876543210" className="font-semibold hover:text-[#983132]">+91 98765 43210</a><br />
+                    Phone: <a href="tel:+916353321530" className="font-semibold hover:text-[#983132]">+91 63533 21530</a><br />
                     Email: <a href="mailto:contact@shreejilibrary.com" className="hover:text-[#983132]">contact@shreejilibrary.com</a>
                   </p>
                 </div>
