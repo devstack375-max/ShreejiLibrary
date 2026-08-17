@@ -26,7 +26,7 @@ export default function Facilities() {
 
         <div className="space-y-24">
           
-          {/* Row 1: Image Left, Text Right */}
+          {/* Row 1: Real Hall Image Left, Text Right */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
             <motion.div
@@ -38,7 +38,7 @@ export default function Facilities() {
             >
               <div className="rounded-3xl overflow-hidden shadow-xl border border-[#F5E4E4] bg-white h-[380px] sm:h-[420px]">
                 <img
-                  src="/assets/ac_hall.png"
+                  src="/WhatsApp Image 2026-08-16 at 12.58.49 PM (3).jpeg"
                   alt="Air-conditioned silent study hall"
                   className="w-full h-full object-cover"
                 />
@@ -61,13 +61,13 @@ export default function Facilities() {
               </h3>
 
               <p className="text-base sm:text-lg text-[#201E1F]/75 leading-relaxed font-normal pt-2">
-                Wide central aisle, wooden cubicles with acoustic panels between desks, dimmable task lamps at every seat. The temperature stays at 24°C from morning to night.
+                Wide central aisle, wooden cubicles with acoustic panels between desks, LED task lamps at every seat. High capacity Mitsubishi Heavy Duty AC keeps temperature comfortable from morning to night.
               </p>
             </motion.div>
 
           </div>
 
-          {/* Row 2: Text Left, Image Right */}
+          {/* Row 2: Text Left, Real Cubicle Image Right */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
             <motion.div
@@ -86,7 +86,7 @@ export default function Facilities() {
               </h3>
 
               <p className="text-base sm:text-lg text-[#201E1F]/75 leading-relaxed font-normal pt-2">
-                Full-size desk, ergonomic chair, personal drawer, individual charging point and USB. Bring your laptop, notes, coffee — leave everything set up for tomorrow.
+                Full-size wooden desk, ergonomic lumbar chair, individual power socket, LED light, and top shelf for textbooks & study maps. Leave everything set up for tomorrow.
               </p>
             </motion.div>
 
@@ -99,8 +99,8 @@ export default function Facilities() {
             >
               <div className="rounded-3xl overflow-hidden shadow-xl border border-[#F5E4E4] bg-white h-[380px] sm:h-[420px]">
                 <img
-                  src="/assets/desk_closeup.png"
-                  alt="Your private desk setup"
+                  src="/WhatsApp Image 2026-08-16 at 12.58.48 PM (2).jpeg"
+                  alt="Your private cubicle setup with maps"
                   className="w-full h-full object-cover"
                 />
               </div>

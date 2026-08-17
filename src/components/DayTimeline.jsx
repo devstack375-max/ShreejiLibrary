@@ -66,8 +66,8 @@ export default function DayTimeline() {
           >
             <div className="rounded-3xl overflow-hidden shadow-xl border border-[#F5E4E4] bg-[#FFF8F5] h-[480px] sm:h-[540px]">
               <img
-                src="/assets/student_study.png"
-                alt="Student studying at ShreeJi Reading Library"
+                src="/WhatsApp Image 2026-08-16 at 12.58.48 PM.jpeg"
+                alt="Students studying at ShreeJi Reading Library"
                 className="w-full h-full object-cover"
               />
             </div>

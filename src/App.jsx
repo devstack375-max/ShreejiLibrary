@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import AboutPhilosophy from './components/AboutPhilosophy';
+import PerfectReadingSpace from './components/PerfectReadingSpace';
 import Features from './components/Features';
 import MembershipPricing from './components/MembershipPricing';
 import Facilities from './components/Facilities';
@@ -44,6 +45,9 @@ export default function App() {
       {/* About / Philosophy Section */}
       <AboutPhilosophy />
 
+      {/* Anatomy of Perfect Reading Space (Interactive Callout Cubicle Photo) */}
+      <PerfectReadingSpace />
+
       {/* Why Us / Key Features Grid */}
       <Features />
 
@@ -53,7 +57,7 @@ export default function App() {
       {/* Facilities Showcase Section */}
       <Facilities />
 
-      {/* Photo Gallery Section */}
+      {/* Photo Gallery Section (Real Library Photos) */}
       <GallerySection onOpenBooking={scrollToBooking} />
 
       {/* Target Aspirants Section */}

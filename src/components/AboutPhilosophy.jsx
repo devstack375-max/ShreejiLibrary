@@ -51,7 +51,7 @@ export default function AboutPhilosophy() {
               transition={{ duration: 0.6, delay: 0.25 }}
               className="text-lg text-[#201E1F]/80 leading-relaxed font-normal"
             >
-              Every element — the temperature, the dimmable desk lighting, the ergonomic chair you sit in, the absolute silence around you — is tuned so your only job is to open your book and disappear into it.
+              Every element — the temperature, the LED task lighting, the ergonomic chair you sit in, the absolute silence around you — is tuned so your only job is to open your book and disappear into it.
             </motion.p>
 
             <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -90,7 +90,7 @@ export default function AboutPhilosophy() {
 
           </div>
 
-          {/* Right Image / Card Showcase */}
+          {/* Right Real Entrance Photo Showcase */}
           <motion.div
             initial={{ opacity: 0, x: 40, scale: 0.95 }}
             whileInView={{ opacity: 1, x: 0, scale: 1 }}
@@ -100,15 +100,15 @@ export default function AboutPhilosophy() {
           >
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-[#FFF8F5] group">
               <img 
-                src="/assets/ac_hall.png" 
-                alt="ShreeJi Reading Library Study Space" 
-                className="w-full h-[440px] object-cover transition-transform duration-700 group-hover:scale-105"
+                src="/WhatsApp Image 2026-08-16 at 12.58.51 PM (1).jpeg" 
+                alt="ShreeJi Reading Library Main Entrance" 
+                className="w-full h-[480px] object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#201E1F]/80 via-transparent to-transparent" />
               
-              <div className="absolute bottom-6 left-6 right-6 p-6 rounded-2xl bg-white/90 backdrop-blur-md border border-[#F5E4E4] shadow-lg">
+              <div className="absolute bottom-6 left-6 right-6 p-6 rounded-2xl bg-white/95 backdrop-blur-md border border-[#F5E4E4] shadow-lg">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#983132]">ACADEMIC EXCELLENCE</span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#983132]">SHREEJI LIBRARY ENTRANCE</span>
                   <Sparkles className="w-4 h-4 text-[#EB6A30]" />
                 </div>
                 <p className="text-sm text-[#201E1F] font-semibold">

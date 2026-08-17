@@ -7,42 +7,48 @@ export default function Testimonials() {
     {
       name: 'Aarav Mehta',
       exam: 'GPSC Class-1 Rank 14',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+      initials: 'AM',
+      bgColor: 'bg-[#983132]',
       text: 'ShreeJi Reading Library gave me the quiet discipline I could never find at home. Having a fixed assigned seat and continuous 24°C AC kept me in peak flow for 10+ hours every day.',
       stars: 5
     },
     {
       name: 'Kavya Shah',
       exam: 'CA Final Top Scorer',
-      avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80',
+      initials: 'KS',
+      bgColor: 'bg-[#EB6A30]',
       text: 'The acoustic cubicles are incredible. Absolutely zero noise, dimmable desk lamp, fast dual fiber Wi-Fi for video lectures, and safe locker. Best reading space by far!',
       stars: 5
     },
     {
       name: 'Deepak Joshi',
       exam: 'UPSC Mains Qualified',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+      initials: 'DJ',
+      bgColor: 'bg-[#201E1F]',
       text: 'Having my personal desk set up every morning meant I never wasted a single minute. The staff is polite and strictly maintains silence across all reading rooms.',
       stars: 5
     },
     {
       name: 'Ananya Sharma',
       exam: 'NEET AIR 340',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
+      initials: 'AS',
+      bgColor: 'bg-[#983132]',
       text: 'The peaceful atmosphere allowed me to focus on biology marathons without any phone or noise distractions. The complimentary tea/coffee breaks are a great refresh!',
       stars: 5
     },
     {
       name: 'Rohit Patel',
       exam: 'JEE Advanced Rank 512',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
+      initials: 'RP',
+      bgColor: 'bg-[#EB6A30]',
       text: 'Super high speed dual fiber Wi-Fi and power sockets at every desk. Solved physics problems for 12 hours straight every single day.',
       stars: 5
     },
     {
       name: 'Priyanshi Verma',
       exam: 'SSC CGL Selected',
-      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
+      initials: 'PV',
+      bgColor: 'bg-[#201E1F]',
       text: 'Clean, highly secure with CCTV, clean washrooms, and very supportive management. Truly a sanctuary for competitive exam preparation.',
       stars: 5
     }
@@ -79,7 +85,7 @@ export default function Testimonials() {
 
       </div>
 
-      {/* Infinite Horizontal Rotating Slider with CSS animation-play-state: paused on hover */}
+      {/* Infinite Horizontal Rotating Slider */}
       <div className="relative w-full overflow-hidden py-4">
         <div className="animate-marquee gap-6">
           {doubleReviews.map((rev, idx) => (
@@ -102,11 +108,9 @@ export default function Testimonials() {
               </div>
 
               <div className="flex items-center gap-4 pt-6 border-t border-[#FFF8F5]">
-                <img 
-                  src={rev.avatar} 
-                  alt={rev.name} 
-                  className="w-12 h-12 rounded-full object-cover border-2 border-[#983132]"
-                />
+                <div className={`w-12 h-12 rounded-full ${rev.bgColor} text-white font-bold flex items-center justify-center text-sm shadow-md border-2 border-white shrink-0`}>
+                  {rev.initials}
+                </div>
                 <div>
                   <h4 className="font-bold text-[#201E1F] text-base flex items-center gap-1.5">
                     <span>{rev.name}</span>
