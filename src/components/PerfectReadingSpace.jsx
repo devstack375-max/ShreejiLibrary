@@ -16,7 +16,7 @@ export default function PerfectReadingSpace() {
       bgColor: 'bg-[#FFF0E8]',
       textColor: 'text-[#EB6A30]',
       pinBg: 'bg-[#EB6A30]',
-      pinPos: { top: '7%', left: '46%' }
+      pinPos: { top: '11.5%', left: '48%' }
     },
     {
       id: 'power',
