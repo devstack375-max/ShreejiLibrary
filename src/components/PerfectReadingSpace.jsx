@@ -1,49 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sun, Plug, Grid, Armchair, Sparkles } from 'lucide-react';
+import { Sun, Plug, Grid, Armchair, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export default function PerfectReadingSpace() {
-  const pointerPoints = [
+  const [activeId, setActiveId] = useState(null);
+
+  const features = [
     {
       id: 'light',
-      title: 'Warm LED Task Light',
-      desc: 'Individual overhead warm light designed to illuminate your books with zero glare or eye fatigue.',
+      num: '1',
+      pinLabel: 'Light',
+      title: 'LED Task Light',
+      desc: 'Individual overhead warm light illumination designed for zero eye strain during long study sessions.',
       icon: Sun,
-      color: '#EB6A30',
-      badgePos: 'top-6 left-4 sm:left-8',
-      targetPos: { top: '16%', left: '50%' }
+      bgColor: 'bg-[#FFF0E8]',
+      textColor: 'text-[#EB6A30]',
+      pinBg: 'bg-[#EB6A30]',
+      pinPos: { top: '7%', left: '46%' }
     },
     {
       id: 'power',
-      title: 'Personal Power Point',
-      desc: 'Dedicated 230V socket & switchboard at every desk for laptop charging, iPad & mobile devices.',
+      num: '2',
+      pinLabel: 'Power',
+      title: 'Power Point & Socket',
+      desc: 'Individual 230V socket & switchboard at every desk for laptop, tablet & phone charging.',
       icon: Plug,
-      color: '#983132',
-      badgePos: 'top-6 right-4 sm:right-8',
-      targetPos: { top: '21%', left: '70%' }
+      bgColor: 'bg-[#F5E4E4]',
+      textColor: 'text-[#983132]',
+      pinBg: 'bg-[#983132]',
+      pinPos: { top: '19%', left: '68%' }
     },
     {
       id: 'table',
+      num: '3',
+      pinLabel: 'Table',
       title: 'Spacious Study Table',
-      desc: 'Wide wooden cubicle table with top storage shelf for textbooks, notes, and study material.',
+      desc: 'Wide wooden cubicle table with top shelf storage for all your textbooks, notebooks, and study material.',
       icon: Grid,
-      color: '#EB6A30',
-      badgePos: 'bottom-32 left-4 sm:left-8',
-      targetPos: { top: '52%', left: '48%' }
+      bgColor: 'bg-[#FFF0E8]',
+      textColor: 'text-[#EB6A30]',
+      pinBg: 'bg-[#EB6A30]',
+      pinPos: { top: '52%', left: '46%' }
     },
     {
       id: 'chair',
-      title: 'Ergonomic Mesh Chair',
-      desc: 'Adjustable black lumbar support office chair engineered for 10-14 hours of continuous comfortable sitting.',
+      num: '4',
+      pinLabel: 'Chair',
+      title: 'Ergonomic Chair',
+      desc: 'Adjustable black lumbar support office chair engineered for 10-14 hours of continuous posture-friendly sitting.',
       icon: Armchair,
-      color: '#201E1F',
-      badgePos: 'bottom-6 right-4 sm:right-8',
-      targetPos: { top: '75%', left: '52%' }
+      bgColor: 'bg-[#201E1F]',
+      textColor: 'text-white',
+      pinBg: 'bg-[#201E1F]',
+      pinPos: { top: '78%', left: '48%' }
     }
   ];
 
   return (
-    <section id="reading-space" className="py-24 bg-white text-[#201E1F] overflow-hidden">
+    <section id="reading-space" className="py-20 sm:py-24 bg-[#FFF8F5] text-[#201E1F] overflow-hidden max-w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -52,7 +66,7 @@ export default function PerfectReadingSpace() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="text-center max-w-3xl mx-auto mb-12 sm:mb-16"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="h-[1px] w-8 bg-[#983132]" />
@@ -66,157 +80,106 @@ export default function PerfectReadingSpace() {
           </h2>
           
           <p className="mt-4 text-base sm:text-lg text-[#201E1F]/70 font-normal">
-            Every cubicle at ShreeJi Reading Library is equipped with essential features designed for long, productive study hours.
+            Hover or tap any feature card to highlight its position on the real cubicle photo.
           </p>
         </motion.div>
 
-        {/* Real Cubicle Photo with Animated Pointer Lines & Feature Callouts */}
-        <div className="relative max-w-4xl mx-auto rounded-3xl overflow-hidden border border-[#F5E4E4] shadow-2xl bg-[#FFF8F5]">
+        {/* Clean 2-Column Layout for Desktop & Laptop Screens */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* Main Cubicle Photo */}
-          <img 
-            src="/WhatsApp Image 2026-08-16 at 12.58.48 PM (1).jpeg" 
-            alt="ShreeJi Reading Library Cubicle Setup" 
-            className="w-full h-auto object-cover min-h-[500px] sm:min-h-[650px]"
-          />
-
-          {/* Overlay Dark Vignette */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
-
-          {/* Interactive Feature Callout Cards with Line Highlights */}
-          <div className="absolute inset-0 p-4 sm:p-8 flex flex-col justify-between pointer-events-none">
-            
-            {/* Top Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pointer-events-auto">
+          {/* Left Side: Real Cubicle Photo with Interactive Target Pins */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-7 relative"
+          >
+            <div className="relative rounded-3xl overflow-hidden border border-[#F5E4E4] shadow-2xl bg-white">
               
-              {/* Light Feature Card */}
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-[#F5E4E4] shadow-lg flex items-start gap-3"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#FFF0E8] text-[#EB6A30] flex items-center justify-center shrink-0">
-                  <Sun className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm text-[#201E1F] flex items-center gap-1.5">
-                    <span>1. LED Task Light</span>
-                    <Sparkles className="w-3.5 h-3.5 text-[#EB6A30]" />
-                  </h4>
-                  <p className="text-xs text-[#201E1F]/70 mt-1 leading-snug">
-                    Overhead warm light illumination for zero glare during long reading sessions.
-                  </p>
-                </div>
-              </motion.div>
+              {/* Main Photo */}
+              <img 
+                src="/WhatsApp Image 2026-08-16 at 12.58.48 PM (1).jpeg" 
+                alt="ShreeJi Reading Library Cubicle Setup" 
+                className="w-full h-[420px] sm:h-[550px] lg:h-[620px] object-cover"
+              />
 
-              {/* Power Point Feature Card */}
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-[#F5E4E4] shadow-lg flex items-start gap-3"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#F5E4E4] text-[#983132] flex items-center justify-center shrink-0">
-                  <Plug className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm text-[#201E1F] flex items-center gap-1.5">
-                    <span>2. Power Point & Socket</span>
-                    <Sparkles className="w-3.5 h-3.5 text-[#983132]" />
-                  </h4>
-                  <p className="text-xs text-[#201E1F]/70 mt-1 leading-snug">
-                    Individual 230V socket & switchboard at every desk for laptop & phone charging.
-                  </p>
-                </div>
-              </motion.div>
+              {/* Gradient Vignette Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#201E1F]/40 via-transparent to-[#201E1F]/10 pointer-events-none" />
+
+              {/* Glowing Pins Positioned Directly Over Physical Items with Exact Labels */}
+              {features.map((item) => {
+                const isActive = activeId === item.id;
+                return (
+                  <div
+                    key={item.id}
+                    style={{ top: item.pinPos.top, left: item.pinPos.left }}
+                    className="absolute -translate-x-1/2 -translate-y-1/2 z-20 cursor-pointer group"
+                    onMouseEnter={() => setActiveId(item.id)}
+                    onMouseLeave={() => setActiveId(null)}
+                    onClick={() => setActiveId(activeId === item.id ? null : item.id)}
+                  >
+                    <span className={`animate-ping absolute inline-flex h-9 w-9 rounded-full ${item.pinBg} opacity-75`} />
+                    <div className={`relative px-3 py-1.5 rounded-full shadow-xl border-2 border-white text-white text-xs font-bold transition-all duration-300 ${
+                      isActive ? 'scale-125 ring-4 ring-white/60' : 'group-hover:scale-110'
+                    } ${item.pinBg} flex items-center gap-1.5`}>
+                      <span>{item.pinLabel}</span>
+                      {isActive && <Sparkles className="w-3.5 h-3.5 text-white" />}
+                    </div>
+                  </div>
+                );
+              })}
 
             </div>
+          </motion.div>
 
-            {/* Pointer Dots on Image */}
-            {/* 1. Light Target Pin */}
-            <div className="absolute top-[18%] left-[50%] -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center">
-              <span className="animate-ping absolute inline-flex h-8 w-8 rounded-full bg-[#EB6A30] opacity-75" />
-              <div className="relative bg-[#EB6A30] text-white font-bold text-xs px-2.5 py-1 rounded-full shadow-lg border-2 border-white flex items-center gap-1">
-                <span>Light</span>
-              </div>
-            </div>
+          {/* Right Side: Sleek Feature Cards List */}
+          <div className="lg:col-span-5 space-y-4">
+            {features.map((item, index) => {
+              const Icon = item.icon;
+              const isActive = activeId === item.id;
 
-            {/* 2. Power Point Target Pin */}
-            <div className="absolute top-[21%] left-[70%] -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center">
-              <span className="animate-ping absolute inline-flex h-8 w-8 rounded-full bg-[#983132] opacity-75" />
-              <div className="relative bg-[#983132] text-white font-bold text-xs px-2.5 py-1 rounded-full shadow-lg border-2 border-white flex items-center gap-1">
-                <span>Power Point</span>
-              </div>
-            </div>
+              return (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  onMouseEnter={() => setActiveId(item.id)}
+                  onMouseLeave={() => setActiveId(null)}
+                  onClick={() => setActiveId(activeId === item.id ? null : item.id)}
+                  className={`p-5 sm:p-6 rounded-2xl border transition-all duration-300 cursor-pointer flex items-start gap-4 ${
+                    isActive 
+                      ? 'bg-white border-[#EB6A30] shadow-lg translate-x-1 ring-2 ring-[#EB6A30]/20' 
+                      : 'bg-white/80 border-[#F5E4E4] hover:border-[#EB6A30]/50 hover:bg-white shadow-sm'
+                  }`}
+                >
+                  {/* Icon */}
+                  <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl ${item.bgColor} ${item.textColor} flex items-center justify-center shrink-0 shadow-sm`}>
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                  </div>
 
-            {/* 3. Table Target Pin */}
-            <div className="absolute top-[52%] left-[48%] -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center">
-              <span className="animate-ping absolute inline-flex h-8 w-8 rounded-full bg-[#EB6A30] opacity-75" />
-              <div className="relative bg-[#EB6A30] text-white font-bold text-xs px-2.5 py-1 rounded-full shadow-lg border-2 border-white flex items-center gap-1">
-                <span>Table</span>
-              </div>
-            </div>
-
-            {/* 4. Chair Target Pin */}
-            <div className="absolute top-[75%] left-[50%] -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center">
-              <span className="animate-ping absolute inline-flex h-8 w-8 rounded-full bg-[#201E1F] opacity-75" />
-              <div className="relative bg-[#201E1F] text-white font-bold text-xs px-2.5 py-1 rounded-full shadow-lg border-2 border-white flex items-center gap-1">
-                <span>Chair</span>
-              </div>
-            </div>
-
-            {/* Bottom Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pointer-events-auto">
-              
-              {/* Table Feature Card */}
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-[#F5E4E4] shadow-lg flex items-start gap-3"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#FFF0E8] text-[#EB6A30] flex items-center justify-center shrink-0">
-                  <Grid className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm text-[#201E1F] flex items-center gap-1.5">
-                    <span>3. Spacious Study Table</span>
-                    <Sparkles className="w-3.5 h-3.5 text-[#EB6A30]" />
-                  </h4>
-                  <p className="text-xs text-[#201E1F]/70 mt-1 leading-snug">
-                    Wide wooden cubicle table with top shelf storage for all your books and stationery.
-                  </p>
-                </div>
-              </motion.div>
-
-              {/* Chair Feature Card */}
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-[#F5E4E4] shadow-lg flex items-start gap-3"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#201E1F] text-white flex items-center justify-center shrink-0">
-                  <Armchair className="w-5 h-5 text-[#EB6A30]" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm text-[#201E1F] flex items-center gap-1.5">
-                    <span>4. Ergonomic Chair</span>
-                    <Sparkles className="w-3.5 h-3.5 text-[#EB6A30]" />
-                  </h4>
-                  <p className="text-xs text-[#201E1F]/70 mt-1 leading-snug">
-                    Adjustable black lumbar support office chair for 10-14 hours of posture-friendly sitting.
-                  </p>
-                </div>
-              </motion.div>
-
-            </div>
-
+                  {/* Details */}
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-bold text-base sm:text-lg text-[#201E1F] flex items-center gap-2">
+                        <span className="text-[#983132] font-mono text-sm font-bold">{item.num}.</span>
+                        <span>{item.title}</span>
+                      </h3>
+                      {isActive ? (
+                        <CheckCircle2 className="w-5 h-5 text-[#EB6A30]" />
+                      ) : (
+                        <Sparkles className="w-4 h-4 text-gray-300" />
+                      )}
+                    </div>
+                    <p className="text-xs sm:text-sm text-[#201E1F]/70 mt-1.5 leading-relaxed font-normal">
+                      {item.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
         </div>

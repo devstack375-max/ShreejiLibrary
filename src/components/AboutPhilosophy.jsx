@@ -123,7 +123,7 @@ export default function AboutPhilosophy() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.6, type: 'spring', stiffness: 200 }}
-              className="absolute -top-6 -left-6 bg-[#983132] text-white p-4 rounded-2xl shadow-xl hidden sm:flex items-center gap-3"
+              className="absolute -top-4 left-4 sm:-left-4 bg-[#983132] text-white p-4 rounded-2xl shadow-xl hidden sm:flex items-center gap-3"
             >
               <ShieldCheck className="w-6 h-6 text-[#EB6A30]" />
               <div>
