@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Preloader from './components/Preloader';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import AboutPhilosophy from './components/AboutPhilosophy';
@@ -34,6 +35,9 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white text-[#201E1F] selection:bg-[#EB6A30] selection:text-white relative overflow-x-hidden max-w-full w-full">
       
+      {/* Preloader Animation */}
+      <Preloader />
+
       {/* Navigation Header */}
       <Navbar 
         onOpenBooking={scrollToBooking} 
