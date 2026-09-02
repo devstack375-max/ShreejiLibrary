@@ -1,8 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Star, Clock, Users, ChevronDown } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Hero({ onOpenBooking }) {
+  const { t } = useLanguage();
+
   return (
     <section id="top" className="relative min-h-screen pt-24 sm:pt-28 pb-12 sm:pb-16 flex flex-col justify-between text-white overflow-hidden max-w-full">
       
@@ -29,7 +32,7 @@ export default function Hero({ onOpenBooking }) {
           className="inline-flex items-center gap-2 bg-[#983132]/60 border border-[#EB6A30]/50 text-[#FFF0E8] px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-wider mb-6 sm:mb-8 backdrop-blur-md self-start max-w-full"
         >
           <span className="w-2 h-2 rounded-full bg-[#EB6A30] animate-pulse shrink-0" />
-          <span className="truncate">Now accepting new student intake</span>
+          <span className="truncate">{t('hero.badge')}</span>
         </motion.div>
 
         {/* Main Headline */}
@@ -40,9 +43,9 @@ export default function Hero({ onOpenBooking }) {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-3xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.15] sm:leading-[1.1] mb-5 sm:mb-6 break-words"
           >
-            Your perfect study environment for{' '}
+            {t('hero.titleStart')}
             <span className="font-serif italic text-[#EB6A30] inline-block">
-              maximum focus.
+              {t('hero.titleHighlight')}
             </span>
           </motion.h1>
 
@@ -52,7 +55,7 @@ export default function Hero({ onOpenBooking }) {
             transition={{ duration: 0.7, delay: 0.7 }}
             className="text-base sm:text-xl text-white/90 max-w-2xl font-normal leading-relaxed mb-8 sm:mb-10"
           >
-            Escape distractions and study in a calm, air-conditioned, professionally managed reading space designed for serious students.
+            {t('hero.subtitle')}
           </motion.p>
 
           {/* Action CTAs */}
@@ -66,7 +69,7 @@ export default function Hero({ onOpenBooking }) {
               onClick={onOpenBooking}
               className="bg-[#EB6A30] hover:bg-[#d5571e] text-white font-semibold text-sm sm:text-base px-6 sm:px-8 py-3.5 sm:py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 sm:gap-3 group"
             >
-              <span>Book a seat</span>
+              <span>{t('hero.bookSeatBtn')}</span>
               <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
             </button>
 
@@ -74,7 +77,7 @@ export default function Hero({ onOpenBooking }) {
               href="#reading-space"
               className="border border-white/40 hover:border-white bg-white/10 hover:bg-white/20 text-white font-medium text-sm sm:text-base px-6 sm:px-7 py-3.5 sm:py-4 rounded-full transition-all duration-300 backdrop-blur-md text-center"
             >
-              Explore Cubicle Setup
+              {t('hero.exploreCubicleBtn')}
             </a>
           </motion.div>
         </div>
@@ -96,7 +99,7 @@ export default function Hero({ onOpenBooking }) {
             </div>
             <div>
               <p className="text-lg sm:text-3xl lg:text-4xl font-extrabold text-white">800+</p>
-              <p className="text-[10px] sm:text-xs text-white/70 uppercase tracking-wider font-semibold">STUDENTS</p>
+              <p className="text-[10px] sm:text-xs text-white/70 uppercase tracking-wider font-semibold">{t('hero.statStudents')}</p>
             </div>
           </div>
 
@@ -106,7 +109,7 @@ export default function Hero({ onOpenBooking }) {
             </div>
             <div>
               <p className="text-lg sm:text-3xl lg:text-4xl font-extrabold text-white">17 HRS</p>
-              <p className="text-[10px] sm:text-xs text-white/70 uppercase tracking-wider font-semibold">DAILY</p>
+              <p className="text-[10px] sm:text-xs text-white/70 uppercase tracking-wider font-semibold">{t('hero.statHours')}</p>
             </div>
           </div>
 
@@ -116,7 +119,7 @@ export default function Hero({ onOpenBooking }) {
             </div>
             <div>
               <p className="text-lg sm:text-3xl lg:text-4xl font-extrabold text-white">4.9 ★</p>
-              <p className="text-[10px] sm:text-xs text-white/70 uppercase tracking-wider font-semibold">RATING</p>
+              <p className="text-[10px] sm:text-xs text-white/70 uppercase tracking-wider font-semibold">{t('hero.statRating')}</p>
             </div>
           </div>
 
@@ -125,7 +128,7 @@ export default function Hero({ onOpenBooking }) {
         {/* Scroll Indicator */}
         <div className="flex justify-center pt-6 sm:pt-8">
           <a href="#about" className="flex flex-col items-center gap-1 text-white/60 hover:text-[#EB6A30] transition-colors text-xs uppercase tracking-widest font-semibold">
-            <span>SCROLL</span>
+            <span>{t('hero.scroll')}</span>
             <ChevronDown className="w-4 h-4 animate-bounce" />
           </a>
         </div>

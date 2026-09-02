@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { LanguageProvider } from './context/LanguageContext';
 import Preloader from './components/Preloader';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -17,7 +18,7 @@ import BookingForm from './components/BookingForm';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 
-export default function App() {
+function MainApp() {
   const [selectedPlan, setSelectedPlan] = useState(null);
 
   const scrollToBooking = () => {
@@ -61,7 +62,7 @@ export default function App() {
       {/* Facilities Showcase Section */}
       <Facilities />
 
-      {/* Photo Gallery Section (Real Library Photos) */}
+      {/* Photo Gallery Section with View More and Slideshow */}
       <GallerySection onOpenBooking={scrollToBooking} />
 
       {/* Target Aspirants Section */}
@@ -91,5 +92,13 @@ export default function App() {
       <ScrollToTop />
 
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <MainApp />
+    </LanguageProvider>
   );
 }

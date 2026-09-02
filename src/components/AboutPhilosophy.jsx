@@ -1,8 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { VolumeX, Flame, ShieldCheck, Sparkles } from 'lucide-react';
+import { VolumeX, Flame, ShieldCheck, Sparkles, Zap, Award } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function AboutPhilosophy() {
+  const { t } = useLanguage();
+
   return (
     <section id="about" className="py-24 bg-white text-[#201E1F]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,7 +18,7 @@ export default function AboutPhilosophy() {
           transition={{ duration: 0.5 }}
           className="flex items-center gap-3 mb-6"
         >
-          <span className="text-xs font-bold uppercase tracking-widest text-[#983132]">01 — ABOUT US</span>
+          <span className="text-xs font-bold uppercase tracking-widest text-[#983132]">{t('about.badge')}</span>
           <div className="h-[1px] w-12 bg-[#F5E4E4]" />
         </motion.div>
 
@@ -30,8 +33,8 @@ export default function AboutPhilosophy() {
               transition={{ duration: 0.7 }}
               className="text-3xl sm:text-5xl font-bold tracking-tight text-[#201E1F] leading-tight"
             >
-              A space built for one thing —{' '}
-              <span className="font-serif italic text-[#983132]">deep focus.</span>
+              {t('about.headingStart')}
+              <span className="font-serif italic text-[#983132]">{t('about.headingHighlight')}</span>
             </motion.h2>
 
             <motion.p
@@ -41,7 +44,7 @@ export default function AboutPhilosophy() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="text-lg text-[#201E1F]/80 leading-relaxed font-normal"
             >
-              <strong className="text-[#983132]">ShreeJi Reading Library</strong> is not a traditional library. We don't lend books. We offer something far harder to find — a quiet, disciplined, professionally managed room where serious students come to prepare for the exams that will define their careers.
+              {t('about.p1')}
             </motion.p>
 
             <motion.p
@@ -51,23 +54,24 @@ export default function AboutPhilosophy() {
               transition={{ duration: 0.6, delay: 0.25 }}
               className="text-lg text-[#201E1F]/80 leading-relaxed font-normal"
             >
-              Every element — the temperature, the LED task lighting, the ergonomic chair you sit in, the absolute silence around you — is tuned so your only job is to open your book and disappear into it.
+              {t('about.p2')}
             </motion.p>
 
+            {/* 4 Feature Points Grid */}
             <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="p-5 rounded-2xl bg-[#FFF8F5] border border-[#F5E4E4] flex items-start gap-4"
+                className="bg-[#FFF8F5] p-5 rounded-2xl border border-[#F5E4E4] flex items-start gap-4"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#983132]/10 text-[#983132] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-[#F5E4E4] text-[#983132] flex items-center justify-center shrink-0">
                   <VolumeX className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#201E1F] text-base mb-1">Strict Silence Code</h4>
-                  <p className="text-sm text-[#201E1F]/70">Zero noise tolerance with acoustic partitions for uninterrupted study.</p>
+                  <h4 className="font-bold text-sm text-[#201E1F]">{t('about.point1Title')}</h4>
+                  <p className="text-xs text-[#201E1F]/70 mt-1">{t('about.point1Desc')}</p>
                 </div>
               </motion.div>
 
@@ -76,46 +80,79 @@ export default function AboutPhilosophy() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="p-5 rounded-2xl bg-[#FFF8F5] border border-[#F5E4E4] flex items-start gap-4"
+                className="bg-[#FFF8F5] p-5 rounded-2xl border border-[#F5E4E4] flex items-start gap-4"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#EB6A30]/10 text-[#EB6A30] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-[#FFF0E8] text-[#EB6A30] flex items-center justify-center shrink-0">
+                  <Zap className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-[#201E1F]">{t('about.point2Title')}</h4>
+                  <p className="text-xs text-[#201E1F]/70 mt-1">{t('about.point2Desc')}</p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="bg-[#FFF8F5] p-5 rounded-2xl border border-[#F5E4E4] flex items-start gap-4"
+              >
+                <div className="w-10 h-10 rounded-xl bg-[#F5E4E4] text-[#983132] flex items-center justify-center shrink-0">
+                  <Award className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-[#201E1F]">{t('about.point3Title')}</h4>
+                  <p className="text-xs text-[#201E1F]/70 mt-1">{t('about.point3Desc')}</p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                className="bg-[#FFF8F5] p-5 rounded-2xl border border-[#F5E4E4] flex items-start gap-4"
+              >
+                <div className="w-10 h-10 rounded-xl bg-[#FFF0E8] text-[#EB6A30] flex items-center justify-center shrink-0">
                   <Flame className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#201E1F] text-base mb-1">High-Drive Environment</h4>
-                  <p className="text-sm text-[#201E1F]/70">Surround yourself with dedicated peer aspirants aiming for top ranks.</p>
+                  <h4 className="font-bold text-sm text-[#201E1F]">{t('about.point4Title')}</h4>
+                  <p className="text-xs text-[#201E1F]/70 mt-1">{t('about.point4Desc')}</p>
                 </div>
               </motion.div>
             </div>
-
           </div>
 
-          {/* Right Real Entrance Photo Showcase */}
-          <motion.div
-            initial={{ opacity: 0, x: 40, scale: 0.95 }}
-            whileInView={{ opacity: 1, x: 0, scale: 1 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="lg:col-span-5 relative"
-          >
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-[#FFF8F5] group">
-              <img 
-                src="/WhatsApp Image 2026-08-16 at 12.58.51 PM (1).jpeg" 
-                alt="ShreeJi Reading Library Main Entrance" 
-                className="w-full h-[480px] object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#201E1F]/80 via-transparent to-transparent" />
-              
-              <div className="absolute bottom-6 left-6 right-6 p-6 rounded-2xl bg-white/95 backdrop-blur-md border border-[#F5E4E4] shadow-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#983132]">SHREEJI LIBRARY ENTRANCE</span>
-                  <Sparkles className="w-4 h-4 text-[#EB6A30]" />
-                </div>
-                <p className="text-sm text-[#201E1F] font-semibold">
-                  "The cleanest & quietest reading library experience in the city."
-                </p>
+          {/* Right Image Showcase with Real Library Photo */}
+          <div className="lg:col-span-5 relative">
+            <motion.div
+              initial={{ opacity: 0, x: 40, scale: 0.95 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.8 }}
+              className="rounded-3xl overflow-hidden shadow-2xl border border-[#F5E4E4] relative group bg-[#FFF8F5]"
+            >
+              {/* Real Library Entrance Photo with Bhagat Singh & Vivekananda Poster */}
+              <div className="h-[480px] sm:h-[520px] overflow-hidden">
+                <img
+                  src="/WhatsApp Image 2026-08-16 at 12.58.51 PM (1).jpeg" 
+                  alt="ShreeJi Reading Library Entrance"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
               </div>
-            </div>
+
+              {/* Photo Caption Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#201E1F]/80 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
+                <div className="flex items-center gap-2 text-[#EB6A30] text-xs font-bold uppercase tracking-wider mb-1">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>AUTHENTIC LIBRARY SPACE</span>
+                </div>
+                <h3 className="text-lg font-bold">Main Reading Hall Entrance</h3>
+                <p className="text-xs text-white/80 mt-1">Dedicated to serious UPSC, GPSC, CA, NEET & GATE preparation.</p>
+              </div>
+            </motion.div>
 
             {/* Accent Floating Badge */}
             <motion.div
@@ -127,12 +164,12 @@ export default function AboutPhilosophy() {
             >
               <ShieldCheck className="w-6 h-6 text-[#EB6A30]" />
               <div>
-                <p className="text-xs font-bold text-white/80">RESERVED DESKS</p>
-                <p className="text-sm font-extrabold text-white">Fixed Seat Guarantee</p>
+                <p className="text-xs font-bold text-white/80">{t('about.reservedBadge')}</p>
+                <p className="text-sm font-extrabold text-white">{t('about.fixedSeat')}</p>
               </div>
             </motion.div>
 
-          </motion.div>
+          </div>
 
         </div>
 

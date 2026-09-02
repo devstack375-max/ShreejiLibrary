@@ -2,13 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Send, CheckCircle2, AlertCircle, Loader2, Sparkles } from 'lucide-react';
 import { saveBookingToFirestore } from '../firebase';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function BookingForm({ selectedPlan }) {
+  const { language, t } = useLanguage();
+  const isGu = language === 'gu';
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    email: '',
+    exam: '',
     plan: 'Half Day — 6 hrs · ₹700',
+    shift: 'Full Day (06:00 AM – 11:00 PM)',
     message: ''
   });
 
@@ -17,12 +22,15 @@ export default function BookingForm({ selectedPlan }) {
 
   useEffect(() => {
     if (selectedPlan) {
+      const planName = selectedPlan === 'full-day' 
+        ? (isGu ? 'ફુલ ડે પ્લાન — ₹1000/માસિક' : 'Full Day Plan — ₹1000/mo')
+        : (isGu ? 'હાફ ડે પ્લાન — ₹700/માસિક' : 'Half Day Plan — ₹700/mo');
       setFormData(prev => ({
         ...prev,
-        plan: `${selectedPlan.name} — ₹${selectedPlan.price}/mo`
+        plan: planName
       }));
     }
-  }, [selectedPlan]);
+  }, [selectedPlan, isGu]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -31,7 +39,10 @@ export default function BookingForm({ selectedPlan }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.phone) {
-      setToast({ type: 'error', text: 'Please fill in your Name and Phone number.' });
+      setToast({ 
+        type: 'error', 
+        text: isGu ? 'કૃપા કરીને તમારું નામ અને ફોન નંબર દાખલ કરો.' : 'Please fill in your Name and Phone number.' 
+      });
       return;
     }
 
@@ -45,8 +56,9 @@ export default function BookingForm({ selectedPlan }) {
       await saveBookingToFirestore({
         name: formData.name,
         phone: formData.phone,
-        email: formData.email,
+        exam: formData.exam,
         plan: formData.plan,
+        shift: formData.shift,
         message: formData.message
       });
       firestoreSaved = true;
@@ -70,31 +82,18 @@ export default function BookingForm({ selectedPlan }) {
       console.warn("Backend API POST notice:", err);
     }
 
-    if (firestoreSaved) {
-      setToast({
-        type: 'success',
-        text: 'Booking Request Sent. Our coordinator will contact you within 1 hour to hold your seat.'
-      });
-      setFormData({
-        name: '',
-        phone: '',
-        email: '',
-        plan: 'Half Day — 6 hrs · ₹700',
-        message: ''
-      });
-    } else {
-      setToast({
-        type: 'success',
-        text: 'Booking Request Sent Successfully! We have reserved your seat inquiry.'
-      });
-      setFormData({
-        name: '',
-        phone: '',
-        email: '',
-        plan: 'Half Day — 6 hrs · ₹700',
-        message: ''
-      });
-    }
+    setToast({
+      type: 'success',
+      text: t('booking.successDesc')
+    });
+    setFormData({
+      name: '',
+      phone: '',
+      exam: '',
+      plan: isGu ? 'હાફ ડે પ્લાન — ₹700/માસિક' : 'Half Day — 6 hrs · ₹700',
+      shift: isGu ? 'ફુલ ડે (સવારે ૦૬:૦૦ – રાત્રે ૧૧:૦૦)' : 'Full Day (06:00 AM – 11:00 PM)',
+      message: ''
+    });
 
     setLoading(false);
   };
@@ -117,17 +116,16 @@ export default function BookingForm({ selectedPlan }) {
         >
           <div className="inline-flex items-center gap-2 bg-[#983132]/40 border border-[#EB6A30]/40 text-[#FFF0E8] px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[#EB6A30]" />
-            <span>BOOK YOUR SEAT</span>
+            <span>{t('booking.badge')}</span>
           </div>
 
           <h2 className="text-4xl sm:text-6xl font-bold tracking-tight leading-tight">
-            Start your{' '}
-            <span className="font-serif italic text-[#EB6A30]">focus journey</span>{' '}
-            today.
+            {t('booking.headingStart')}
+            <span className="font-serif italic text-[#EB6A30]">{t('booking.headingHighlight')}</span>
           </h2>
 
           <p className="mt-4 text-base sm:text-lg text-[#F5E4E4]/80 max-w-xl mx-auto">
-            Leave your details and we'll hold a seat for you at your preferred shift. No commitment until you visit.
+            {t('booking.subtitle')}
           </p>
         </motion.div>
 
@@ -160,14 +158,14 @@ export default function BookingForm({ selectedPlan }) {
             
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#F5E4E4] mb-2">
-                NAME *
+                {t('booking.fullName')}
               </label>
               <input
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="Enter your full name"
+                placeholder={t('booking.fullNamePlaceholder')}
                 required
                 className="w-full px-4 py-3.5 rounded-2xl bg-white/90 text-[#201E1F] placeholder-gray-500 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#EB6A30] transition-all"
               />
@@ -175,14 +173,14 @@ export default function BookingForm({ selectedPlan }) {
 
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#F5E4E4] mb-2">
-                PHONE NUMBER *
+                {t('booking.phone')}
               </label>
               <input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="10-digit mobile number"
+                placeholder={t('booking.phonePlaceholder')}
                 required
                 className="w-full px-4 py-3.5 rounded-2xl bg-white/90 text-[#201E1F] placeholder-gray-500 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#EB6A30] transition-all"
               />
@@ -194,30 +192,34 @@ export default function BookingForm({ selectedPlan }) {
             
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#F5E4E4] mb-2">
-                EMAIL ADDRESS
+                {t('booking.exam')}
               </label>
               <input
-                type="email"
-                name="email"
-                value={formData.email}
+                type="text"
+                name="exam"
+                value={formData.exam}
                 onChange={handleChange}
-                placeholder="your.email@example.com"
+                placeholder={t('booking.examPlaceholder')}
                 className="w-full px-4 py-3.5 rounded-2xl bg-white/90 text-[#201E1F] placeholder-gray-500 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#EB6A30] transition-all"
               />
             </div>
 
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#F5E4E4] mb-2">
-                PREFERRED PLAN
+                {t('booking.planSelect')}
               </label>
               <select
                 name="plan"
                 value={formData.plan}
                 onChange={handleChange}
-                className="w-full px-4 py-3.5 rounded-2xl bg-white/90 text-[#201E1F] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#EB6A30] transition-all cursor-pointer"
+                className="w-full px-4 py-3.5 rounded-2xl bg-white/90 text-[#201E1F] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#EB6A30] transition-all"
               >
-                <option value="Half Day — 6 hrs · ₹700">Half Day — 6 hrs · ₹700/mo</option>
-                <option value="Full Day — 12 hrs · ₹1000">Full Day — 12 hrs · ₹1000/mo (Recommended)</option>
+                <option value={isGu ? 'ફુલ ડે પ્લાન — ₹1000/માસિક' : 'Full Day — 17 hrs · ₹1000/mo'}>
+                  {isGu ? 'ફુલ ડે પ્લાન (૧૭ કલાક) — ₹1000/માસિક' : 'Full Day (17 hrs) — ₹1000 / month'}
+                </option>
+                <option value={isGu ? 'હાફ ડે પ્લાન — ₹700/માસિક' : 'Half Day — 6-8 hrs · ₹700/mo'}>
+                  {isGu ? 'હાફ ડે પ્લાન (૬-૮ કલાક) — ₹700/માસિક' : 'Half Day (6-8 hrs) — ₹700 / month'}
+                </option>
               </select>
             </div>
 
@@ -225,14 +227,30 @@ export default function BookingForm({ selectedPlan }) {
 
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-[#F5E4E4] mb-2">
-              MESSAGE / EXAM GOAL
+              {t('booking.shiftSelect')}
+            </label>
+            <select
+              name="shift"
+              value={formData.shift}
+              onChange={handleChange}
+              className="w-full px-4 py-3.5 rounded-2xl bg-white/90 text-[#201E1F] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#EB6A30] transition-all"
+            >
+              <option value="Full Day (06:00 AM – 11:00 PM)">{t('booking.slotFullDay')}</option>
+              <option value="Morning Shift (06:00 AM – 02:00 PM)">{t('booking.slotMorning')}</option>
+              <option value="Evening Shift (02:00 PM – 11:00 PM)">{t('booking.slotEvening')}</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#F5E4E4] mb-2">
+              {isGu ? 'વિશેષ નોંધ અથવા પ્રશ્ન (વૈકલ્પિક)' : 'SPECIAL REQUESTS OR QUESTIONS (OPTIONAL)'}
             </label>
             <textarea
               name="message"
-              rows={3}
+              rows="3"
               value={formData.message}
               onChange={handleChange}
-              placeholder="e.g. UPSC Prelims prep, morning shift preferred..."
+              placeholder={isGu ? 'કોઈ ખાસ જરૂરિયાત હોય તો અહીં લખો...' : 'Tell us your preferred joining date or any questions...'}
               className="w-full px-4 py-3.5 rounded-2xl bg-white/90 text-[#201E1F] placeholder-gray-500 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#EB6A30] transition-all"
             />
           </div>
@@ -240,24 +258,20 @@ export default function BookingForm({ selectedPlan }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#EB6A30] hover:bg-[#d5571e] text-white font-bold py-4 rounded-full text-base transition-all shadow-xl shadow-[#EB6A30]/30 hover:shadow-[#EB6A30]/50 flex items-center justify-center gap-2 group disabled:opacity-50"
+            className="w-full py-4 rounded-full bg-[#EB6A30] hover:bg-[#d5571e] text-white font-bold text-base transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group disabled:opacity-70"
           >
             {loading ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                <span>Saving to Database...</span>
+                <span>{t('booking.submitting')}</span>
               </>
             ) : (
               <>
-                <span>Book your seat</span>
+                <span>{t('booking.submitBtn')}</span>
                 <Send className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </>
             )}
           </button>
-
-          <p className="text-center text-xs text-[#F5E4E4]/60 pt-2">
-            🔒 Your contact information is kept strictly private. Zero spam.
-          </p>
 
         </motion.form>
 

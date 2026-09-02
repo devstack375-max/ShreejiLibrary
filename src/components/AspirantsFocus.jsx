@@ -1,9 +1,20 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { GraduationCap, Target } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function AspirantsFocus() {
-  const exams = [
+  const { language, t } = useLanguage();
+  const isGu = language === 'gu';
+
+  const exams = isGu ? [
+    { title: 'UPSC સિવિલ સર્વિસીસ', desc: 'IAS, IPS, IFS અને રાજ્ય PSC પ્રિલિમ્સ-મેઇન્સ માટે શાંત ડેસ્ક' },
+    { title: 'GPSC વર્ગ ૧ અને ૨', desc: 'ગુજરાત વહીવટી સેવા અને સ્પર્ધાત્મક પરીક્ષાઓની સંપૂર્ણ તૈયારી' },
+    { title: 'CA ફાઇનલ અને ઇન્ટર', desc: 'ચાર્ટર્ડ એકાઉન્ટન્સી અને ઓડિટ રિવિઝન માટે સળંગ ૧૨+ કલાક એકાગ્રતા' },
+    { title: 'NEET અને JEE ટોપર્સ', desc: 'ફિઝિક્સ, કેમિસ્ટ્રી અને બાયોલોજી મોક ટેસ્ટ માટે ડેડિકેટેડ સ્પેસ' },
+    { title: 'SSC CGL અને બેંકિંગ', desc: 'હાઇ-સ્પીડ વાઇ-ફાઇ સાથે ઓનલાઇન મોક ટેસ્ટ પ્રેક્ટિસ ડેસ્ક' },
+    { title: 'GATE, ESE અને PSU', desc: 'એન્જિનિયરિંગ ગ્રેજ્યુએટ્સ માટે ટેકનિકલ પ્રશ્નો ઉકેલવાનું શાંત વાતાવરણ' }
+  ] : [
     { title: 'UPSC Civil Services', desc: 'IAS, IPS, IFS & State PSC Prelims & Mains study desks' },
     { title: 'GPSC Class 1 & 2', desc: 'State administrative competitive exam preparation' },
     { title: 'CA Final & Inter', desc: 'Silent environment for heavy accounting & tax audit revision' },
@@ -35,15 +46,17 @@ export default function AspirantsFocus() {
         >
           <div className="inline-flex items-center gap-2 bg-[#F5E4E4] text-[#983132] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
             <Target className="w-4 h-4 text-[#EB6A30]" />
-            <span>Target Exam Aspirants</span>
+            <span>{t('aspirants.badge')}</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#201E1F]">
-            Built for those who take their preparation{' '}
-            <span className="font-serif italic text-[#983132]">seriously.</span>
+            {t('aspirants.headingStart')}
+            <span className="font-serif italic text-[#983132]">{t('aspirants.headingHighlight')}</span>
           </h2>
           <p className="mt-3 text-base text-[#201E1F]/70">
-            Join hundreds of committed aspirants aiming for top ranks in national and state level examinations.
+            {isGu 
+              ? 'ટોપ રેન્ક મેળવવા માટે રાત-દિવસ સમર્પિત સેંકડો તેજસ્વી વિદ્યાર્થીઓ સાથે અભ્યાસ કરો.' 
+              : 'Join hundreds of committed aspirants aiming for top ranks in national and state level examinations.'}
           </p>
         </motion.div>
 
@@ -58,14 +71,14 @@ export default function AspirantsFocus() {
             <motion.div
               key={idx}
               variants={itemVariants}
-              className="bg-white p-6 rounded-2xl border border-[#F5E4E4] shadow-sm flex items-start gap-4 hover:border-[#EB6A30] transition-colors"
+              className="bg-white p-6 rounded-2xl border border-[#F5E4E4] shadow-sm hover:shadow-md hover:border-[#EB6A30]/50 transition-all flex items-start gap-4 group"
             >
-              <div className="w-10 h-10 rounded-xl bg-[#FFF0E8] text-[#EB6A30] flex items-center justify-center shrink-0 mt-0.5">
+              <div className="w-11 h-11 rounded-xl bg-[#FFF0E8] text-[#EB6A30] flex items-center justify-center shrink-0 group-hover:bg-[#983132] group-hover:text-white transition-colors duration-300">
                 <GraduationCap className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-bold text-base text-[#201E1F] mb-1">{item.title}</h4>
-                <p className="text-xs text-[#201E1F]/70 leading-relaxed">{item.desc}</p>
+                <h4 className="font-bold text-base text-[#201E1F]">{item.title}</h4>
+                <p className="text-xs text-[#201E1F]/70 mt-1.5 leading-relaxed font-normal">{item.desc}</p>
               </div>
             </motion.div>
           ))}

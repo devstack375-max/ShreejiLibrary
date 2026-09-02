@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sun, Plug, Grid, Armchair, Sparkles, CheckCircle2 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function PerfectReadingSpace() {
   const [activeId, setActiveId] = useState(null);
+  const { t } = useLanguage();
 
   const features = [
     {
       id: 'light',
       num: '1',
-      pinLabel: 'Light',
-      title: 'LED Task Light',
-      desc: 'Individual overhead warm light illumination designed for zero eye strain during long study sessions.',
+      pinLabel: t('cubicle.pinLight'),
+      title: t('cubicle.f1Title'),
+      desc: t('cubicle.f1Desc'),
       icon: Sun,
       bgColor: 'bg-[#FFF0E8]',
       textColor: 'text-[#EB6A30]',
@@ -21,9 +23,9 @@ export default function PerfectReadingSpace() {
     {
       id: 'power',
       num: '2',
-      pinLabel: 'Power',
-      title: 'Power Point & Socket',
-      desc: 'Individual 230V socket & switchboard at every desk for laptop, tablet & phone charging.',
+      pinLabel: t('cubicle.pinPower'),
+      title: t('cubicle.f2Title'),
+      desc: t('cubicle.f2Desc'),
       icon: Plug,
       bgColor: 'bg-[#F5E4E4]',
       textColor: 'text-[#983132]',
@@ -33,9 +35,9 @@ export default function PerfectReadingSpace() {
     {
       id: 'table',
       num: '3',
-      pinLabel: 'Table',
-      title: 'Spacious Study Table',
-      desc: 'Wide wooden cubicle table with top shelf storage for all your textbooks, notebooks, and study material.',
+      pinLabel: t('cubicle.pinTable'),
+      title: t('cubicle.f3Title'),
+      desc: t('cubicle.f3Desc'),
       icon: Grid,
       bgColor: 'bg-[#FFF0E8]',
       textColor: 'text-[#EB6A30]',
@@ -45,9 +47,9 @@ export default function PerfectReadingSpace() {
     {
       id: 'chair',
       num: '4',
-      pinLabel: 'Chair',
-      title: 'Ergonomic Chair',
-      desc: 'Adjustable black lumbar support office chair engineered for 10-14 hours of continuous posture-friendly sitting.',
+      pinLabel: t('cubicle.pinChair'),
+      title: t('cubicle.f4Title'),
+      desc: t('cubicle.f4Desc'),
       icon: Armchair,
       bgColor: 'bg-[#201E1F]',
       textColor: 'text-white',
@@ -70,17 +72,17 @@ export default function PerfectReadingSpace() {
         >
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="h-[1px] w-8 bg-[#983132]" />
-            <span className="text-xs font-bold uppercase tracking-widest text-[#983132]">THE PERFECT CUBICLE</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-[#983132]">{t('cubicle.badge')}</span>
             <div className="h-[1px] w-8 bg-[#983132]" />
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#201E1F]">
-            Anatomy of the{' '}
-            <span className="font-serif italic text-[#EB6A30]">perfect reading space.</span>
+            {t('cubicle.headingStart')}
+            <span className="font-serif italic text-[#EB6A30]">{t('cubicle.headingHighlight')}</span>
           </h2>
           
           <p className="mt-4 text-base sm:text-lg text-[#201E1F]/70 font-normal">
-            Hover or tap any feature card to highlight its position on the real cubicle photo.
+            {t('cubicle.subtitle')}
           </p>
         </motion.div>
 

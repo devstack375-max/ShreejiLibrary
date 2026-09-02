@@ -1,8 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Clock } from 'lucide-react';
+import { MapPin, Phone, Clock, MessageSquare, ExternalLink } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function LocationContact() {
+  const { language, t } = useLanguage();
+  const isGu = language === 'gu';
+
   return (
     <section id="contact" className="py-24 bg-[#FFF8F5] text-[#201E1F]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,7 +19,7 @@ export default function LocationContact() {
           transition={{ duration: 0.5 }}
           className="flex items-center gap-3 mb-4"
         >
-          <span className="text-xs font-bold uppercase tracking-widest text-[#983132]">08 — VISIT US</span>
+          <span className="text-xs font-bold uppercase tracking-widest text-[#983132]">{t('contact.badge')}</span>
           <div className="h-[1px] w-12 bg-[#F5E4E4]" />
         </motion.div>
 
@@ -30,15 +34,17 @@ export default function LocationContact() {
           >
             <div>
               <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#201E1F] leading-tight">
-                Come find us.
+                {t('contact.headingStart')}
+                <span className="font-serif italic text-[#EB6A30]">{t('contact.headingHighlight')}</span>
               </h2>
               <p className="mt-4 text-base sm:text-lg text-[#201E1F]/70">
-                Located in a quiet academic neighborhood near India Gate with easy parking and public transit access.
+                {t('contact.subtitle')}
               </p>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
 
+              {/* Address Card */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -50,13 +56,14 @@ export default function LocationContact() {
                   <MapPin className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#201E1F] text-base">Library Location</h4>
+                  <h4 className="font-bold text-[#201E1F] text-base">{t('contact.addressLabel')}</h4>
                   <p className="text-sm text-[#201E1F]/80 mt-1">
-                    Rajpath Area, Near India Gate, Central Secretariat, New Delhi, Delhi 110001
+                    {t('contact.addressVal')}
                   </p>
                 </div>
               </motion.div>
 
+              {/* Phone Card */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -65,17 +72,35 @@ export default function LocationContact() {
                 className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-[#F5E4E4] shadow-sm"
               >
                 <div className="w-12 h-12 rounded-2xl bg-[#EB6A30] text-white flex items-center justify-center shrink-0">
-                  <Clock className="w-6 h-6" />
+                  <Phone className="w-6 h-6" />
                 </div>
-                <div>
-                  <h4 className="font-bold text-[#201E1F] text-base">Operating Hours</h4>
-                  <p className="text-sm text-[#201E1F]/80 mt-1">
-                    Monday – Sunday (7 Days a Week)<br />
-                    <strong className="text-[#983132]">6:00 AM – 11:00 PM</strong>
+                <div className="flex-1">
+                  <h4 className="font-bold text-[#201E1F] text-base">{t('contact.phoneLabel')}</h4>
+                  <p className="text-lg font-bold text-[#983132] mt-0.5">
+                    {t('contact.phoneVal')}
                   </p>
+                  <div className="flex items-center gap-3 mt-3">
+                    <a
+                      href="tel:+916353321530"
+                      className="inline-flex items-center gap-1.5 bg-[#983132] text-white text-xs font-semibold px-4 py-2 rounded-full hover:bg-[#7f2728] transition-colors"
+                    >
+                      <Phone className="w-3.5 h-3.5" />
+                      <span>{t('contact.callNow')}</span>
+                    </a>
+                    <a
+                      href="https://wa.me/916353321530?text=Hello%2C%20I%20want%20to%20inquire%20about%20seat%20booking%20at%20ShreeJi%20Reading%20Library."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 bg-emerald-600 text-white text-xs font-semibold px-4 py-2 rounded-full hover:bg-emerald-700 transition-colors"
+                    >
+                      <MessageSquare className="w-3.5 h-3.5" />
+                      <span>{t('contact.whatsappNow')}</span>
+                    </a>
+                  </div>
                 </div>
               </motion.div>
 
+              {/* Timings Card */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -84,40 +109,55 @@ export default function LocationContact() {
                 className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-[#F5E4E4] shadow-sm"
               >
                 <div className="w-12 h-12 rounded-2xl bg-[#201E1F] text-white flex items-center justify-center shrink-0">
-                  <Phone className="w-6 h-6 text-[#EB6A30]" />
+                  <Clock className="w-6 h-6 text-[#EB6A30]" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#201E1F] text-base">Direct Contact</h4>
+                  <h4 className="font-bold text-[#201E1F] text-base">{t('contact.timingLabel')}</h4>
                   <p className="text-sm text-[#201E1F]/80 mt-1">
-                    Phone: <a href="tel:+916353321530" className="font-semibold hover:text-[#983132]">+91 63533 21530</a><br />
-                    Email: <a href="mailto:contact@shreejilibrary.com" className="hover:text-[#983132]">contact@shreejilibrary.com</a>
+                    {t('contact.timingVal')}
                   </p>
                 </div>
               </motion.div>
 
             </div>
-
           </motion.div>
 
-          {/* Interactive Google Map for India Gate */}
+          {/* Interactive Google Map Column */}
           <motion.div
             initial={{ opacity: 0, x: 40, scale: 0.95 }}
             whileInView={{ opacity: 1, x: 0, scale: 1 }}
             viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.8 }}
             className="lg:col-span-6"
           >
-            <div className="bg-white p-3 rounded-3xl border border-[#F5E4E4] shadow-xl relative overflow-hidden h-[420px]">
+            <div className="rounded-3xl overflow-hidden shadow-2xl border border-[#F5E4E4] bg-white h-[450px] relative group">
               <iframe
-                title="India Gate Location Map"
+                title="ShreeJi Reading Library Location"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5620641617477!2d77.2270034762024!3d28.612911975674723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce2daa9eb4d0b%3A0x717971125923e5d!2sIndia%20Gate!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
-                style={{ border: 0, borderRadius: '1.25rem' }}
+                style={{ border: 0 }}
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
+                className="w-full h-full"
               />
+              
+              <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-[#F5E4E4] flex items-center justify-between">
+                <div>
+                  <p className="font-bold text-xs text-[#201E1F]">ShreeJi Reading Library</p>
+                  <p className="text-[11px] text-[#201E1F]/60">Air Conditioned • 06:00 AM – 11:00 PM</p>
+                </div>
+                <a 
+                  href="https://maps.google.com/?q=India+Gate,+New+Delhi"
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-[#983132] hover:bg-[#7f2728] text-white text-xs font-semibold px-4 py-2 rounded-full transition-colors flex items-center gap-1.5 shadow-sm"
+                >
+                  <span>{isGu ? 'મેપ્સ જુઓ' : 'Directions'}</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
             </div>
           </motion.div>
 

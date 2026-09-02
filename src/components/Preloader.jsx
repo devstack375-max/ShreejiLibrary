@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Preloader() {
   const [isLoading, setIsLoading] = useState(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -217,7 +219,7 @@ export default function Preloader() {
               transition={{ duration: 0.4, delay: 0.4 }}
               className="text-xs font-bold uppercase tracking-widest text-[#983132] mb-1"
             >
-              ShreeJi Reading Library
+              {t('preloader.title')}
             </motion.h2>
 
             <motion.p
@@ -226,7 +228,7 @@ export default function Preloader() {
               transition={{ duration: 0.4, delay: 0.5 }}
               className="text-xs text-[#201E1F]/60 font-serif italic"
             >
-              Opening your sanctuary for maximum focus
+              {t('preloader.subtitle')}
             </motion.p>
 
             {/* Progress Line */}

@@ -1,9 +1,62 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Star, Quote, CheckCircle } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Testimonials() {
-  const reviews = [
+  const { language, t } = useLanguage();
+  const isGu = language === 'gu';
+
+  const reviews = isGu ? [
+    {
+      name: 'આરવ મહેતા',
+      exam: 'GPSC વર્ગ-૧ રેન્ક ૧૪',
+      initials: 'AM',
+      bgColor: 'bg-[#983132]',
+      text: 'શ્રીજી રીડિંગ લાઇબ્રેરીએ મને જે શાંતિ અને શિસ્ત આપી તે ઘરમાં ક્યારેય શક્ય ન હતી. ફિક્સ સીટ અને ૨૪°C એસીને લીધે દરરોજ ૧૦+ કલાક સળંગ અભ્યાસ કરી શકાયો.',
+      stars: 5
+    },
+    {
+      name: 'કાવ્યા શાહ',
+      exam: 'CA ફાઇનલ ટોપ સ્કોરર',
+      initials: 'KS',
+      bgColor: 'bg-[#EB6A30]',
+      text: 'અહીંના એકોસ્ટિક ક્યુબિકલ્સ અદ્ભુત છે. શૂન્ય અવાજ, આંખોને આરામદાયક LED લાઇટ, લેક્ચર્સ માટે ફાસ્ટ વાઇ-ફાઇ અને સુરક્ષિત લોકર. અભ્યાસ માટે સર્વશ્રેષ્ઠ જગ્યા!',
+      stars: 5
+    },
+    {
+      name: 'દીપક જોશી',
+      exam: 'UPSC મેઇન્સ ક્વોલિફાઇડ',
+      initials: 'DJ',
+      bgColor: 'bg-[#201E1F]',
+      text: 'રોજ સવારે આવીને પોતાની ફિક્સ સીટ પર બેસવાથી સમયનો એક પણ મિનિટ બગડતો નથી. સ્ટાફ ખૂબ સારો છે અને શાંતિનું ચુસ્ત પાલન કરાવે છે.',
+      stars: 5
+    },
+    {
+      name: 'અનન્યા શર્મા',
+      exam: 'NEET AIR 340',
+      initials: 'AS',
+      bgColor: 'bg-[#983132]',
+      text: 'શાંત વાતાવરણના કારણે હું ફોન કે અન્ય કોઈ ખલેલ વગર બાયોલોજીનો અભ્યાસ કરી શકી. ઓપન ટેરેસ પર ચા-નાસ્તાનો બ્રેક ખૂબ તાજગી આપે છે!',
+      stars: 5
+    },
+    {
+      name: 'રોહિત પટેલ',
+      exam: 'JEE એડવાન્સ્ડ રેન્ક 512',
+      initials: 'RP',
+      bgColor: 'bg-[#EB6A30]',
+      text: 'દરેક ડેસ્ક પર હાઇ સ્પીડ વાઇ-ફાઇ અને પાવર સોકેટ હોવાથી રોજના ૧૨ કલાક સુધી ઓનલાઇન લેક્ચર્સ અને ટેસ્ટ સીરીઝ સોલ્વ કરી શક્યો.',
+      stars: 5
+    },
+    {
+      name: 'પ્રિયાંશી વર્મા',
+      exam: 'SSC CGL સિલેક્ટેડ',
+      initials: 'PV',
+      bgColor: 'bg-[#201E1F]',
+      text: 'સ્વચ્છતા, CCTV સુરક્ષા, હાઇજેનિક વૉશરૂમ અને સપોર્ટિવ મેનેજમેન્ટ. સ્પર્ધાત્મક પરીક્ષાઓની તૈયારી માટે આ સાચું અભ્યાસ મંદિર છે.',
+      stars: 5
+    }
+  ] : [
     {
       name: 'Aarav Mehta',
       exam: 'GPSC Class-1 Rank 14',
@@ -58,10 +111,10 @@ export default function Testimonials() {
   const doubleReviews = [...reviews, ...reviews];
 
   return (
-    <section className="py-24 bg-[#FFF8F5] text-[#201E1F] overflow-hidden">
+    <section className="py-24 bg-white text-[#201E1F] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
         
-        {/* Header */}
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -70,53 +123,61 @@ export default function Testimonials() {
           className="text-center max-w-3xl mx-auto"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-[1px] w-8 bg-[#983132]" />
-            <span className="text-xs font-bold uppercase tracking-widest text-[#983132]">06 — TESTIMONIALS</span>
-            <div className="h-[1px] w-8 bg-[#983132]" />
+            <span className="text-xs font-bold uppercase tracking-widest text-[#983132]">{t('testimonials.badge')}</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#201E1F]">
-            What our members say.
+          <h2 className="text-4xl sm:text-6xl font-bold tracking-tight text-[#201E1F]">
+            {t('testimonials.headingStart')}
+            <span className="font-serif italic text-[#EB6A30]">{t('testimonials.headingHighlight')}</span>
           </h2>
-          <p className="mt-3 text-lg text-[#201E1F]/70">
-            Trusted by hundreds of serious learners and competitive exam achievers. Hover over any card to pause.
+          <p className="mt-3 text-base sm:text-lg text-[#201E1F]/70">
+            {t('testimonials.subtitle')}
           </p>
         </motion.div>
 
       </div>
 
-      {/* Infinite Horizontal Rotating Slider */}
-      <div className="relative w-full overflow-hidden py-4">
-        <div className="animate-marquee gap-6">
-          {doubleReviews.map((rev, idx) => (
-            <div 
-              key={idx}
-              className="w-[360px] sm:w-[420px] bg-white p-8 rounded-3xl border border-[#F5E4E4] shadow-md flex flex-col justify-between relative group/card hover:border-[#EB6A30] transition-colors shrink-0 cursor-pointer"
-            >
-              <Quote className="absolute top-6 right-6 w-8 h-8 text-[#FFF0E8] group-hover/card:text-[#F5E4E4] transition-colors" />
+      {/* Infinite Horizontal Marquee Track with CSS Pause on Hover */}
+      <div className="relative w-full max-w-full overflow-hidden py-4">
+        {/* Left and Right Fade Gradients */}
+        <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
 
+        <div className="animate-marquee gap-6">
+          {doubleReviews.map((review, index) => (
+            <div
+              key={index}
+              className="w-[320px] sm:w-[380px] bg-[#FFF8F5] p-6 sm:p-7 rounded-3xl border border-[#F5E4E4] shrink-0 shadow-sm hover:shadow-md hover:border-[#EB6A30]/40 transition-all duration-300 flex flex-col justify-between"
+            >
               <div>
-                <div className="flex items-center gap-1 text-[#EB6A30] mb-6">
-                  {Array.from({ length: rev.stars }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#EB6A30]" />
-                  ))}
+                {/* 5 Stars Rating & Quote Icon */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-1 text-[#EB6A30]">
+                    {[...Array(review.stars)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-current" />
+                    ))}
+                  </div>
+                  <Quote className="w-6 h-6 text-[#983132]/20" />
                 </div>
 
-                <p className="text-sm text-[#201E1F]/80 leading-relaxed italic mb-8">
-                  "{rev.text}"
+                {/* Testimonial Quote Text */}
+                <p className="text-sm text-[#201E1F]/80 leading-relaxed italic font-normal">
+                  "{review.text}"
                 </p>
               </div>
 
-              <div className="flex items-center gap-4 pt-6 border-t border-[#FFF8F5]">
-                <div className={`w-12 h-12 rounded-full ${rev.bgColor} text-white font-bold flex items-center justify-center text-sm shadow-md border-2 border-white shrink-0`}>
-                  {rev.initials}
+              {/* Author & Exam Details */}
+              <div className="flex items-center gap-3.5 mt-6 pt-4 border-t border-[#F5E4E4]">
+                {/* Stylized Initial Avatar */}
+                <div className={`w-11 h-11 rounded-full ${review.bgColor} text-white font-bold text-sm flex items-center justify-center shrink-0 shadow-sm`}>
+                  {review.initials}
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#201E1F] text-base flex items-center gap-1.5">
-                    <span>{rev.name}</span>
-                    <CheckCircle className="w-4 h-4 text-[#983132]" />
+                  <h4 className="font-bold text-sm text-[#201E1F] flex items-center gap-1">
+                    <span>{review.name}</span>
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-600 fill-emerald-100" />
                   </h4>
-                  <p className="text-xs font-semibold text-[#EB6A30]">{rev.exam}</p>
+                  <p className="text-xs text-[#983132] font-semibold">{review.exam}</p>
                 </div>
               </div>
 

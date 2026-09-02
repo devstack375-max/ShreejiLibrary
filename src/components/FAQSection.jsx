@@ -1,34 +1,33 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, HelpCircle } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState(0);
+  const { language, t } = useLanguage();
+  const isGu = language === 'gu';
 
   const faqs = [
     {
-      question: 'What is a Reading Space vs traditional library?',
-      answer: 'ShreeJi Reading Library is a modern quiet study hub. We do not lend books. Instead, we provide private wooden acoustic study cubicles, 24°C AC climate control, ergonomic chairs, power sockets, and an environment engineered specifically for serious UPSC, GPSC, CA, NEET & JEE aspirants.'
+      question: t('faq.q1'),
+      answer: t('faq.a1')
     },
     {
-      question: 'Do you offer fixed reserved seats or floating seats?',
-      answer: 'Full Day members receive a fixed reserved seat. You can bring your laptop, notes, and coffee and leave your full study setup intact overnight. Half Day members receive assigned shift desk allocations.'
+      question: t('faq.q2'),
+      answer: t('faq.a2')
     },
     {
-      question: 'How is air conditioning and silence managed?',
-      answer: 'Our high-capacity AC systems maintain a constant 24°C temperature from 6:00 AM to 11:00 PM. We enforce a strict zero-noise policy inside the reading hall. Phone calls and group discussions are strictly restricted to the break lounge.'
+      question: t('faq.q3'),
+      answer: t('faq.a3')
     },
     {
-      question: 'What are the timing shifts available?',
-      answer: 'We offer flexible shift options: Morning Shift (6:00 AM – 12:00 PM), Evening Shift (12:00 PM – 6:00 PM), and Full Day Pass (Any 12-hour window, 6:00 AM – 11:00 PM).'
+      question: t('faq.q4'),
+      answer: t('faq.a4')
     },
     {
-      question: 'How do I pay and renew my membership?',
-      answer: 'You can pay using any UPI app (GPay, PhonePe, Paytm), Credit/Debit Card, Net Banking, or Cash. Memberships renew month-by-month with zero lock-in contracts.'
-    },
-    {
-      question: 'Can I visit for a walk-through or trial desk pass?',
-      answer: 'Absolutely! You can schedule a 15-minute walk-through or request a 1-day demo pass by filling out our booking request form below or reaching out via WhatsApp.'
+      question: t('faq.q5'),
+      answer: t('faq.a5')
     }
   ];
 
@@ -46,56 +45,75 @@ export default function FAQSection() {
         >
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="h-[1px] w-8 bg-[#983132]" />
-            <span className="text-xs font-bold uppercase tracking-widest text-[#983132]">07 — FAQ</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-[#983132]">{t('faq.badge')}</span>
             <div className="h-[1px] w-8 bg-[#983132]" />
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#201E1F]">
-            Questions, answered.
+            {t('faq.headingStart')}
+            <span className="font-serif italic text-[#EB6A30]">{t('faq.headingHighlight')}</span>
           </h2>
 
           <p className="mt-3 text-base sm:text-lg text-[#201E1F]/70">
-            Can't find what you're looking for? Reach us directly and we'll respond within the hour.
+            {t('faq.subtitle')}
           </p>
         </motion.div>
 
         {/* Accordion List */}
         <div className="space-y-4">
-          {faqs.map((faq, idx) => {
-            const isOpen = openIndex === idx;
+          {faqs.map((faq, index) => {
+            const isOpen = openIndex === index;
             return (
               <motion.div
-                key={idx}
+                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-30px' }}
-                transition={{ duration: 0.4, delay: idx * 0.06 }}
-                className="rounded-2xl border border-[#F5E4E4] overflow-hidden transition-all duration-300"
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.4, delay: index * 0.08 }}
+                className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
+                  isOpen 
+                    ? 'bg-[#FFF8F5] border-[#EB6A30]/50 shadow-md' 
+                    : 'bg-white border-[#F5E4E4] hover:border-[#983132]/30'
+                }`}
               >
                 <button
-                  onClick={() => setOpenIndex(isOpen ? -1 : idx)}
-                  className="w-full p-6 text-left bg-[#FFF8F5] hover:bg-[#FFF0E8] flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-[#201E1F] transition-colors"
+                  onClick={() => setOpenIndex(isOpen ? null : index)}
+                  className="w-full text-left p-6 flex items-center justify-between gap-4"
                 >
-                  <span className="flex items-center gap-3">
-                    <HelpCircle className="w-5 h-5 text-[#983132] shrink-0" />
-                    <span>{faq.question}</span>
-                  </span>
-                  <ChevronDown className={`w-5 h-5 text-[#EB6A30] transition-transform duration-300 shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
+                  <div className="flex items-center gap-3.5">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-xs font-bold font-mono transition-colors ${
+                      isOpen ? 'bg-[#EB6A30] text-white' : 'bg-[#FFF0E8] text-[#983132]'
+                    }`}>
+                      Q{index + 1}
+                    </div>
+                    <span className="text-base sm:text-lg font-bold text-[#201E1F]">
+                      {faq.question}
+                    </span>
+                  </div>
+
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border transition-transform duration-300 ${
+                    isOpen 
+                      ? 'bg-white text-[#EB6A30] rotate-180 border-[#EB6A30]/30' 
+                      : 'bg-[#FFF8F5] text-[#201E1F]/60 border-[#F5E4E4]'
+                  }`}>
+                    <ChevronDown className="w-4 h-4" />
+                  </div>
                 </button>
 
-                <motion.div
-                  initial={false}
-                  animate={{
-                    height: isOpen ? 'auto' : 0,
-                    opacity: isOpen ? 1 : 0
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="overflow-hidden"
-                >
-                  <div className="p-6 bg-white border-t border-[#F5E4E4] text-sm sm:text-base text-[#201E1F]/80 leading-relaxed">
-                    {faq.answer}
-                  </div>
-                </motion.div>
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="px-6 pb-6 pt-1 text-sm sm:text-base text-[#201E1F]/80 leading-relaxed border-t border-[#F5E4E4]/60 font-normal">
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             );
           })}

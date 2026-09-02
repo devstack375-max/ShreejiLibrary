@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronRight } from 'lucide-react';
+import { Menu, X, ChevronRight, Globe } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Navbar({ onOpenBooking }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,13 +16,14 @@ export default function Navbar({ onOpenBooking }) {
   }, []);
 
   const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Why us', href: '#features' },
-    { name: 'Membership', href: '#plans' },
-    { name: 'Facilities', href: '#facilities' },
-    { name: 'Gallery', href: '#gallery' },
-    { name: 'FAQ', href: '#faq' },
-    { name: 'Contact', href: '#contact' },
+    { name: t('nav.about'), href: '#about' },
+    { name: t('nav.whyUs'), href: '#features' },
+    { name: t('nav.cubicle'), href: '#reading-space' },
+    { name: t('nav.membership'), href: '#plans' },
+    { name: t('nav.facilities'), href: '#facilities' },
+    { name: t('nav.gallery'), href: '#gallery' },
+    { name: t('nav.faq'), href: '#faq' },
+    { name: t('nav.contact'), href: '#contact' },
   ];
 
   return (
@@ -32,7 +35,7 @@ export default function Navbar({ onOpenBooking }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           
-          {/* Logo - White pill box when at top over hero, blends cleanly into navbar on scroll */}
+          {/* Logo */}
           <a href="#top" className="flex items-center gap-3 group shrink-0">
             <div className={`transition-all duration-300 flex items-center justify-center ${
               scrolled 
@@ -48,12 +51,12 @@ export default function Navbar({ onOpenBooking }) {
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-7">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-7">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className={`text-[15px] font-medium transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#EB6A30] hover:after:w-full after:transition-all after:duration-300 ${
+                className={`text-[14px] xl:text-[15px] font-medium transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#EB6A30] hover:after:w-full after:transition-all after:duration-300 ${
                   scrolled 
                     ? 'text-[#201E1F] hover:text-[#983132]' 
                     : 'text-white/90 hover:text-white'
@@ -64,8 +67,38 @@ export default function Navbar({ onOpenBooking }) {
             ))}
           </nav>
 
-          {/* Action CTA */}
-          <div className="hidden md:flex items-center">
+          {/* Action CTAs: Language Toggle & Book a Seat */}
+          <div className="hidden md:flex items-center gap-3">
+            {/* Language Switcher Button */}
+            <div className={`flex items-center p-1 rounded-full border transition-all ${
+              scrolled 
+                ? 'bg-[#FFF8F5] border-[#F5E4E4]' 
+                : 'bg-black/30 border-white/20 backdrop-blur-md'
+            }`}>
+              <button
+                onClick={() => setLanguage('en')}
+                className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                  language === 'en'
+                    ? 'bg-[#983132] text-white shadow-sm'
+                    : scrolled ? 'text-[#201E1F]/70 hover:text-[#201E1F]' : 'text-white/70 hover:text-white'
+                }`}
+                title="English"
+              >
+                EN
+              </button>
+              <button
+                onClick={() => setLanguage('gu')}
+                className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                  language === 'gu'
+                    ? 'bg-[#983132] text-white shadow-sm'
+                    : scrolled ? 'text-[#201E1F]/70 hover:text-[#201E1F]' : 'text-white/70 hover:text-white'
+                }`}
+                title="ગુજરાતી"
+              >
+                ગુજરાતી
+              </button>
+            </div>
+
             <button
               onClick={onOpenBooking}
               className={`text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2 group ${
@@ -74,19 +107,33 @@ export default function Navbar({ onOpenBooking }) {
                   : 'bg-white hover:bg-white/90 text-[#201E1F]'
               }`}
             >
-              <span>Book a seat</span>
+              <span>{t('nav.bookSeat')}</span>
               <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu & Language Toggle */}
           <div className="md:hidden flex items-center gap-2">
+            {/* Mobile Language Switcher */}
+            <button
+              onClick={() => setLanguage(language === 'en' ? 'gu' : 'en')}
+              className={`text-xs font-bold px-2.5 py-1.5 rounded-full border flex items-center gap-1 ${
+                scrolled 
+                  ? 'bg-[#FFF8F5] border-[#F5E4E4] text-[#983132]' 
+                  : 'bg-black/40 border-white/20 text-white backdrop-blur-md'
+              }`}
+            >
+              <Globe className="w-3.5 h-3.5 text-[#EB6A30]" />
+              <span>{language === 'en' ? 'GU' : 'EN'}</span>
+            </button>
+
             <button
               onClick={onOpenBooking}
-              className="bg-[#983132] text-white text-xs font-semibold px-3.5 py-2 rounded-full shadow-sm"
+              className="bg-[#983132] text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm"
             >
-              Book
+              {t('nav.bookSeat')}
             </button>
+            
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={`p-2 focus:outline-none ${scrolled ? 'text-[#201E1F]' : 'text-white'}`}
@@ -102,6 +149,31 @@ export default function Navbar({ onOpenBooking }) {
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-white border-b border-[#F5E4E4] px-4 pt-3 pb-6 space-y-3 shadow-xl">
+          {/* Mobile Language Selector inside drawer */}
+          <div className="flex items-center justify-between py-2 border-b border-[#F5E4E4]">
+            <span className="text-xs font-semibold text-[#201E1F]/60 flex items-center gap-1.5">
+              <Globe className="w-4 h-4 text-[#EB6A30]" /> Select Language / ભાષા
+            </span>
+            <div className="flex items-center gap-1 bg-[#FFF8F5] p-1 rounded-full border border-[#F5E4E4]">
+              <button
+                onClick={() => setLanguage('en')}
+                className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                  language === 'en' ? 'bg-[#983132] text-white' : 'text-[#201E1F]'
+                }`}
+              >
+                English
+              </button>
+              <button
+                onClick={() => setLanguage('gu')}
+                className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                  language === 'gu' ? 'bg-[#983132] text-white' : 'text-[#201E1F]'
+                }`}
+              >
+                ગુજરાતી
+              </button>
+            </div>
+          </div>
+
           {navLinks.map((link) => (
             <a
               key={link.name}
@@ -117,7 +189,7 @@ export default function Navbar({ onOpenBooking }) {
               onClick={() => { setMobileMenuOpen(false); onOpenBooking(); }}
               className="w-full bg-[#983132] text-white font-semibold py-3 rounded-full text-center"
             >
-              Book a seat
+              {t('nav.bookSeat')}
             </button>
           </div>
         </div>
