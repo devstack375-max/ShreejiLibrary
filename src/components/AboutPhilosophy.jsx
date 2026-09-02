@@ -4,7 +4,8 @@ import { VolumeX, Flame, ShieldCheck, Sparkles, Zap, Award } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext';
 
 export default function AboutPhilosophy() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const isGu = language === 'gu';
 
   return (
     <section id="about" className="py-24 bg-white text-[#201E1F]">
@@ -134,23 +135,27 @@ export default function AboutPhilosophy() {
               transition={{ duration: 0.8 }}
               className="rounded-3xl overflow-hidden shadow-2xl border border-[#F5E4E4] relative group bg-[#FFF8F5]"
             >
-              {/* Real Library Entrance Photo with Bhagat Singh & Vivekananda Poster */}
+              {/* Real Library Study Hall Photo with Students */}
               <div className="h-[480px] sm:h-[520px] overflow-hidden">
                 <img
-                  src="/WhatsApp Image 2026-08-16 at 12.58.51 PM (1).jpeg" 
-                  alt="ShreeJi Reading Library Entrance"
+                  src="/WhatsApp Image 2026-08-16 at 12.58.48 PM.jpeg" 
+                  alt="ShreeJi Reading Library Active Study Hall"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
 
               {/* Photo Caption Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#201E1F]/80 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#201E1F]/85 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
                 <div className="flex items-center gap-2 text-[#EB6A30] text-xs font-bold uppercase tracking-wider mb-1">
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>AUTHENTIC LIBRARY SPACE</span>
+                  <span>AUTHENTIC STUDY ENVIRONMENT</span>
                 </div>
-                <h3 className="text-lg font-bold">Main Reading Hall Entrance</h3>
-                <p className="text-xs text-white/80 mt-1">Dedicated to serious UPSC, GPSC, CA, NEET & GATE preparation.</p>
+                <h3 className="text-lg font-bold">
+                  {isGu ? 'વાસ્તવિક સાયલન્ટ સ્ટડી હોલ' : 'Main Silent Study Hall'}
+                </h3>
+                <p className="text-xs text-white/80 mt-1">
+                  {isGu ? 'UPSC, GPSC, CA, NEET અને GATE માટે સમર્પિત વિદ્યાર્થીઓનું વાતાવરણ.' : 'Real students preparing for UPSC, GPSC, CA, NEET & GATE in full concentration.'}
+                </p>
               </div>
             </motion.div>
 

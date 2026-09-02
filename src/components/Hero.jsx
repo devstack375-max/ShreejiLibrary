@@ -9,16 +9,16 @@ export default function Hero({ onOpenBooking }) {
   return (
     <section id="top" className="relative min-h-screen pt-24 sm:pt-28 pb-12 sm:pb-16 flex flex-col justify-between text-white overflow-hidden max-w-full">
       
-      {/* Real Library Homepage Background Image */}
+      {/* Real Library Homepage Background Image - Full Background Style */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/WhatsApp Image 2026-08-16 at 12.58.48 PM.jpeg" 
+          src="/hero-study-hall.jpg" 
           alt="ShreeJi Reading Library Study Hall" 
           className="w-full h-full object-cover object-center"
         />
-        {/* Dark Gradient Overlay for Readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#201E1F]/85 via-[#201E1F]/70 to-[#201E1F]/90" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#201E1F]/80 via-transparent to-transparent" />
+        {/* Balanced Dark Gradient Overlay for Maximum Photo Visibility + Text Readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#201E1F]/75 via-[#201E1F]/60 to-[#201E1F]/85" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#201E1F]/70 via-transparent to-transparent" />
       </div>
 
       {/* Hero Content */}
@@ -41,7 +41,7 @@ export default function Hero({ onOpenBooking }) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-3xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.15] sm:leading-[1.1] mb-5 sm:mb-6 break-words"
+            className="text-3xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.15] sm:leading-[1.1] mb-5 sm:mb-6 break-words text-shadow"
           >
             {t('hero.titleStart')}
             <span className="font-serif italic text-[#EB6A30] inline-block">
@@ -53,7 +53,7 @@ export default function Hero({ onOpenBooking }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.7 }}
-            className="text-base sm:text-xl text-white/90 max-w-2xl font-normal leading-relaxed mb-8 sm:mb-10"
+            className="text-base sm:text-xl text-white/95 max-w-2xl font-normal leading-relaxed mb-8 sm:mb-10 drop-shadow-sm"
           >
             {t('hero.subtitle')}
           </motion.p>
@@ -75,7 +75,7 @@ export default function Hero({ onOpenBooking }) {
 
             <a
               href="#reading-space"
-              className="border border-white/40 hover:border-white bg-white/10 hover:bg-white/20 text-white font-medium text-sm sm:text-base px-6 sm:px-7 py-3.5 sm:py-4 rounded-full transition-all duration-300 backdrop-blur-md text-center"
+              className="border border-white/40 hover:border-white bg-white/15 hover:bg-white/25 text-white font-medium text-sm sm:text-base px-6 sm:px-7 py-3.5 sm:py-4 rounded-full transition-all duration-300 backdrop-blur-md text-center"
             >
               {t('hero.exploreCubicleBtn')}
             </a>
@@ -91,35 +91,35 @@ export default function Hero({ onOpenBooking }) {
         transition={{ duration: 0.7, delay: 1.1 }}
         className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full"
       >
-        <div className="pt-6 sm:pt-8 border-t border-white/15 grid grid-cols-3 gap-2 sm:gap-6 lg:gap-12">
+        <div className="pt-6 sm:pt-8 border-t border-white/20 grid grid-cols-3 gap-2 sm:gap-6 lg:gap-12">
           
           <div className="flex flex-col sm:flex-row items-center text-center sm:text-left gap-2 sm:gap-4">
-            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#983132]/60 border border-[#983132] flex items-center justify-center text-[#EB6A30] shrink-0 backdrop-blur-sm">
+            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#983132]/70 border border-[#983132] flex items-center justify-center text-[#EB6A30] shrink-0 backdrop-blur-sm">
               <Users className="w-4 h-4 sm:w-6 sm:h-6" />
             </div>
             <div>
               <p className="text-lg sm:text-3xl lg:text-4xl font-extrabold text-white">800+</p>
-              <p className="text-[10px] sm:text-xs text-white/70 uppercase tracking-wider font-semibold">{t('hero.statStudents')}</p>
+              <p className="text-[10px] sm:text-xs text-white/80 uppercase tracking-wider font-semibold">{t('hero.statStudents')}</p>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center text-center sm:text-left gap-2 sm:gap-4">
-            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#983132]/60 border border-[#983132] flex items-center justify-center text-[#EB6A30] shrink-0 backdrop-blur-sm">
+            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#983132]/70 border border-[#983132] flex items-center justify-center text-[#EB6A30] shrink-0 backdrop-blur-sm">
               <Clock className="w-4 h-4 sm:w-6 sm:h-6" />
             </div>
             <div>
               <p className="text-lg sm:text-3xl lg:text-4xl font-extrabold text-white">17 HRS</p>
-              <p className="text-[10px] sm:text-xs text-white/70 uppercase tracking-wider font-semibold">{t('hero.statHours')}</p>
+              <p className="text-[10px] sm:text-xs text-white/80 uppercase tracking-wider font-semibold">{t('hero.statHours')}</p>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center text-center sm:text-left gap-2 sm:gap-4">
-            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#983132]/60 border border-[#983132] flex items-center justify-center text-[#EB6A30] shrink-0 backdrop-blur-sm">
+            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#983132]/70 border border-[#983132] flex items-center justify-center text-[#EB6A30] shrink-0 backdrop-blur-sm">
               <Star className="w-4 h-4 sm:w-6 sm:h-6 fill-[#EB6A30]" />
             </div>
             <div>
               <p className="text-lg sm:text-3xl lg:text-4xl font-extrabold text-white">4.9 ★</p>
-              <p className="text-[10px] sm:text-xs text-white/70 uppercase tracking-wider font-semibold">{t('hero.statRating')}</p>
+              <p className="text-[10px] sm:text-xs text-white/80 uppercase tracking-wider font-semibold">{t('hero.statRating')}</p>
             </div>
           </div>
 
@@ -127,7 +127,7 @@ export default function Hero({ onOpenBooking }) {
 
         {/* Scroll Indicator */}
         <div className="flex justify-center pt-6 sm:pt-8">
-          <a href="#about" className="flex flex-col items-center gap-1 text-white/60 hover:text-[#EB6A30] transition-colors text-xs uppercase tracking-widest font-semibold">
+          <a href="#about" className="flex flex-col items-center gap-1 text-white/70 hover:text-[#EB6A30] transition-colors text-xs uppercase tracking-widest font-semibold">
             <span>{t('hero.scroll')}</span>
             <ChevronDown className="w-4 h-4 animate-bounce" />
           </a>
