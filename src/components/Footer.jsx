@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
-export default function Footer() {
+export default function Footer({ onOpenAdmin }) {
   const { language, t } = useLanguage();
   const isGu = language === 'gu';
 
@@ -68,7 +68,7 @@ export default function Footer() {
             <div className="text-sm text-[#F5E4E4]/80 space-y-1">
               <p className="font-semibold text-white">{isGu ? 'સોમવાર – રવિવાર (સાતેય દિવસ)' : 'Mon – Sun (7 Days)'}</p>
               <p className="text-[#983132] font-bold bg-[#F5E4E4] px-3 py-1 rounded-full inline-block text-xs">
-                06:00 AM – 11:00 PM
+                24/7 Open · 24 Hours Daily
               </p>
               <p className="pt-2 text-xs text-[#F5E4E4]/70">
                 {isGu ? 'સંપર્ક નંબર:' : 'Contact:'} <a href="tel:+916353321530" className="text-white font-bold hover:text-[#EB6A30]">+91 63533 21530</a>
@@ -80,12 +80,19 @@ export default function Footer() {
 
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#F5E4E4]/50 gap-4">
           <p>{t('footer.copyright')}</p>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 sm:gap-6">
             <span>Air Conditioned</span>
             <span>•</span>
             <span>Silent Study Desks</span>
             <span>•</span>
-            <span>High-Speed Wi-Fi</span>
+            {onOpenAdmin && (
+              <button
+                onClick={onOpenAdmin}
+                className="text-[#EB6A30] hover:text-white transition-colors underline font-semibold"
+              >
+                {isGu ? 'સોફ્ટવેર એડમિન' : 'Staff Admin'}
+              </button>
+            )}
           </div>
         </div>
 

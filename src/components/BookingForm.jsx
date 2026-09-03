@@ -1,24 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Send, CheckCircle2, AlertCircle, Loader2, Sparkles } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle, Loader2, Sparkles, UserCheck } from 'lucide-react';
 import { saveBookingToFirestore } from '../firebase';
 import { useLanguage } from '../context/LanguageContext';
+import { usePlans } from '../context/PlansContext';
+import { useAuth } from '../context/AuthContext';
 
-export default function BookingForm({ selectedPlan }) {
+export default function BookingForm({ selectedPlan, onOpenStudentPortal }) {
   const { language, t } = useLanguage();
   const isGu = language === 'gu';
+  const { plans } = usePlans();
+  const { currentUser } = useAuth();
 
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    exam: '',
-    plan: 'Half Day — 6 hrs · ₹700',
-    shift: 'Full Day (06:00 AM – 11:00 PM)',
+    email: '',
+    plan: 'Half Day — 6-8 hrs · ₹700/mo',
     message: ''
   });
 
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(null);
+
+  // Auto-fill logged in student details if available
+  useEffect(() => {
+    if (currentUser) {
+      setFormData(prev => ({
+        ...prev,
+        name: currentUser.displayName || currentUser.name || prev.name,
+        phone: currentUser.phone || prev.phone,
+        email: currentUser.email || prev.email
+      }));
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     if (selectedPlan) {
@@ -49,19 +64,15 @@ export default function BookingForm({ selectedPlan }) {
     setLoading(true);
     setToast(null);
 
-    let firestoreSaved = false;
+    const submissionCopy = { 
+      ...formData,
+      userId: currentUser?.uid || null,
+      directConfirm: !!currentUser // true if already logged in!
+    };
 
     // 1. Save directly to Firebase Firestore Database
     try {
-      await saveBookingToFirestore({
-        name: formData.name,
-        phone: formData.phone,
-        exam: formData.exam,
-        plan: formData.plan,
-        shift: formData.shift,
-        message: formData.message
-      });
-      firestoreSaved = true;
+      await saveBookingToFirestore(submissionCopy);
       console.log("🔥 Successfully saved booking inquiry to Firebase Firestore DB!");
     } catch (err) {
       console.warn("Firestore save error:", err);
@@ -69,33 +80,31 @@ export default function BookingForm({ selectedPlan }) {
 
     // 2. Also POST to backend Express API
     try {
-      const response = await fetch('/api/bookings', {
+      await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(submissionCopy)
       });
-      const resData = await response.json();
-      if (resData.success) {
-        firestoreSaved = true;
-      }
     } catch (err) {
       console.warn("Backend API POST notice:", err);
     }
 
     setToast({
       type: 'success',
-      text: t('booking.successDesc')
-    });
-    setFormData({
-      name: '',
-      phone: '',
-      exam: '',
-      plan: isGu ? 'હાફ ડે પ્લાન — ₹700/માસિક' : 'Half Day — 6 hrs · ₹700',
-      shift: isGu ? 'ફુલ ડે (સવારે ૦૬:૦૦ – રાત્રે ૧૧:૦૦)' : 'Full Day (06:00 AM – 11:00 PM)',
-      message: ''
+      text: currentUser 
+        ? (isGu ? 'તમારી સીટ સફળતાપૂર્વક કન્ફર્મ થઈ ગઈ છે!' : 'Your seat has been successfully confirmed!')
+        : t('booking.successDesc')
     });
 
     setLoading(false);
+
+    // 3. If already logged in -> directly open Confirmed Seat Pass!
+    //    If not logged in -> open Login / Sign Up modal!
+    if (onOpenStudentPortal) {
+      setTimeout(() => {
+        onOpenStudentPortal(submissionCopy);
+      }, 350);
+    }
   };
 
   return (
@@ -127,6 +136,16 @@ export default function BookingForm({ selectedPlan }) {
           <p className="mt-4 text-base sm:text-lg text-[#F5E4E4]/80 max-w-xl mx-auto">
             {t('booking.subtitle')}
           </p>
+
+          {/* Logged in indicator banner */}
+          {currentUser && (
+            <div className="mt-4 inline-flex items-center gap-2 bg-emerald-900/50 border border-emerald-500/40 text-emerald-200 px-4 py-1.5 rounded-full text-xs font-semibold">
+              <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span>
+                {isGu ? `લોગિન છે: ${currentUser.displayName || 'વિદ્યાર્થી'} (સીટ સીધી કન્ફર્મ થશે)` : `Logged in as ${currentUser.displayName || 'Student'} (Seat will confirm instantly)`}
+              </span>
+            </div>
+          )}
         </motion.div>
 
         {/* Toast Alert */}
@@ -154,6 +173,7 @@ export default function BookingForm({ selectedPlan }) {
           className="bg-white/10 backdrop-blur-xl p-8 sm:p-12 rounded-3xl border border-white/15 shadow-2xl space-y-6"
         >
           
+          {/* Row 1: Name and Phone Number */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             
             <div>
@@ -188,18 +208,19 @@ export default function BookingForm({ selectedPlan }) {
 
           </div>
 
+          {/* Row 2: Email Address and Preferred Plan */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#F5E4E4] mb-2">
-                {t('booking.exam')}
+                {isGu ? 'ઇમેઇલ એડ્રેસ' : 'EMAIL ADDRESS'}
               </label>
               <input
-                type="text"
-                name="exam"
-                value={formData.exam}
+                type="email"
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
-                placeholder={t('booking.examPlaceholder')}
+                placeholder="your.email@example.com"
                 className="w-full px-4 py-3.5 rounded-2xl bg-white/90 text-[#201E1F] placeholder-gray-500 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#EB6A30] transition-all"
               />
             </div>
@@ -214,47 +235,43 @@ export default function BookingForm({ selectedPlan }) {
                 onChange={handleChange}
                 className="w-full px-4 py-3.5 rounded-2xl bg-white/90 text-[#201E1F] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#EB6A30] transition-all"
               >
-                <option value={isGu ? 'ફુલ ડે પ્લાન — ₹1000/માસિક' : 'Full Day — 17 hrs · ₹1000/mo'}>
-                  {isGu ? 'ફુલ ડે પ્લાન (૧૭ કલાક) — ₹1000/માસિક' : 'Full Day (17 hrs) — ₹1000 / month'}
-                </option>
-                <option value={isGu ? 'હાફ ડે પ્લાન — ₹700/માસિક' : 'Half Day — 6-8 hrs · ₹700/mo'}>
-                  {isGu ? 'હાફ ડે પ્લાન (૬-૮ કલાક) — ₹700/માસિક' : 'Half Day (6-8 hrs) — ₹700 / month'}
-                </option>
+                {plans && plans.length > 0 ? (
+                  plans.map((p) => (
+                    <option key={p.id} value={`${isGu ? p.nameGu : p.nameEn} — ₹${p.price}/mo`}>
+                      {isGu ? p.nameGu : p.nameEn} — {isGu ? p.taglineGu : p.taglineEn} · ₹{p.price}/mo
+                    </option>
+                  ))
+                ) : (
+                  <>
+                    <option value="Half Day — 6-8 hrs · ₹700/mo">
+                      {isGu ? 'હાફ ડે પ્લાન (૬-૮ કલાક) — ₹700/માસિક' : 'Half Day — 6-8 hrs · ₹700/mo'}
+                    </option>
+                    <option value="Full Day — 17 hrs · ₹1000/mo">
+                      {isGu ? 'ફુલ ડે પ્લાન (૧૭ કલાક) — ₹1000/માસિક' : 'Full Day — 17 hrs · ₹1000/mo'}
+                    </option>
+                  </>
+                )}
               </select>
             </div>
 
           </div>
 
+          {/* Row 3: Message / Exam Goal */}
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-[#F5E4E4] mb-2">
-              {t('booking.shiftSelect')}
-            </label>
-            <select
-              name="shift"
-              value={formData.shift}
-              onChange={handleChange}
-              className="w-full px-4 py-3.5 rounded-2xl bg-white/90 text-[#201E1F] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#EB6A30] transition-all"
-            >
-              <option value="Full Day (06:00 AM – 11:00 PM)">{t('booking.slotFullDay')}</option>
-              <option value="Morning Shift (06:00 AM – 02:00 PM)">{t('booking.slotMorning')}</option>
-              <option value="Evening Shift (02:00 PM – 11:00 PM)">{t('booking.slotEvening')}</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#F5E4E4] mb-2">
-              {isGu ? 'વિશેષ નોંધ અથવા પ્રશ્ન (વૈકલ્પિક)' : 'SPECIAL REQUESTS OR QUESTIONS (OPTIONAL)'}
+              {isGu ? 'મેસેજ / પરીક્ષા લક્ષ્ય (વૈકલ્પિક)' : 'MESSAGE / EXAM GOAL'}
             </label>
             <textarea
               name="message"
               rows="3"
               value={formData.message}
               onChange={handleChange}
-              placeholder={isGu ? 'કોઈ ખાસ જરૂરિયાત હોય તો અહીં લખો...' : 'Tell us your preferred joining date or any questions...'}
+              placeholder={isGu ? 'દા.ત. UPSC/GPSC પ્રીલિમ્સ તૈયારી, સવારની શિફ્ટ પસંદગી...' : 'e.g. UPSC Prelims prep, morning shift preferred...'}
               className="w-full px-4 py-3.5 rounded-2xl bg-white/90 text-[#201E1F] placeholder-gray-500 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#EB6A30] transition-all"
             />
           </div>
 
+          {/* Final Seat Button */}
           <button
             type="submit"
             disabled={loading}
@@ -272,6 +289,10 @@ export default function BookingForm({ selectedPlan }) {
               </>
             )}
           </button>
+
+          <p className="text-[11px] text-center text-white/50">
+            🔒 {isGu ? 'તમારી સંપર્ક માહિતી ૧૦૦% સુરક્ષિત રાખવામાં આવે છે. ઝીરો સ્પામ.' : 'Your contact information is kept strictly private. Zero spam.'}
+          </p>
 
         </motion.form>
 

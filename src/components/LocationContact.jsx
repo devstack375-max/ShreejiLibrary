@@ -87,15 +87,6 @@ export default function LocationContact() {
                       <Phone className="w-3.5 h-3.5" />
                       <span>{t('contact.callNow')}</span>
                     </a>
-                    <a
-                      href="https://wa.me/916353321530?text=Hello%2C%20I%20want%20to%20inquire%20about%20seat%20booking%20at%20ShreeJi%20Reading%20Library."
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 bg-emerald-600 text-white text-xs font-semibold px-4 py-2 rounded-full hover:bg-emerald-700 transition-colors"
-                    >
-                      <MessageSquare className="w-3.5 h-3.5" />
-                      <span>{t('contact.whatsappNow')}</span>
-                    </a>
                   </div>
                 </div>
               </motion.div>

@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { X, Lock, RefreshCw, CheckCircle, Clock, Search, Download, UserCheck } from 'lucide-react';
+import { X, Lock, RefreshCw, CheckCircle, Clock, Search, Download, UserCheck, Plus, Trash2, Sparkles } from 'lucide-react';
+import { usePlans } from '../context/PlansContext';
 
 export default function AdminModal({ isOpen, onClose }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pin, setPin] = useState('');
   const [pinError, setPinError] = useState('');
+  const [activeTab, setActiveTab] = useState('plans'); // 'plans' | 'bookings'
   const [bookings, setBookings] = useState([]);
   const [filter, setFilter] = useState('All');
   const [loading, setLoading] = useState(false);
+
+  // Dynamic Plans from context
+  const { plans, addBenefitPoint, removeBenefitPoint, updatePlan, resetToDefaultPlans } = usePlans();
+
+  // New point form state
+  const [newPointPlanId, setNewPointPlanId] = useState('half-day');
+  const [newPointEn, setNewPointEn] = useState('');
+  const [newPointGu, setNewPointGu] = useState('');
+  const [successNotice, setSuccessNotice] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -35,10 +46,9 @@ export default function AdminModal({ isOpen, onClose }) {
           id: 'BK-101',
           name: 'Rohan Sharma',
           phone: '9876543210',
-          email: 'rohan.s@gmail.com',
-          plan: 'Full Day (12 Hrs)',
-          startDate: '2026-08-15',
-          message: 'Reserved desk for GPSC prep',
+          exam: 'GPSC Class-1',
+          plan: 'Full Day (17 Hrs)',
+          shift: 'Full Day (06:00 AM – 11:00 PM)',
           status: 'Confirmed',
           createdAt: new Date().toISOString()
         },
@@ -46,10 +56,9 @@ export default function AdminModal({ isOpen, onClose }) {
           id: 'BK-102',
           name: 'Priya Patel',
           phone: '9123456789',
-          email: 'priya.p@yahoo.com',
+          exam: 'CA Inter',
           plan: 'Half Day — Morning',
-          startDate: '2026-08-12',
-          message: 'Silent zone desk needed',
+          shift: 'Morning Shift (06:00 AM – 02:00 PM)',
           status: 'Pending',
           createdAt: new Date().toISOString()
         }
@@ -73,6 +82,16 @@ export default function AdminModal({ isOpen, onClose }) {
     );
   };
 
+  const handleAddPoint = (e) => {
+    e.preventDefault();
+    if (!newPointEn.trim()) return;
+    addBenefitPoint(newPointPlanId, newPointEn, newPointGu);
+    setNewPointEn('');
+    setNewPointGu('');
+    setSuccessNotice('New benefit point added successfully to plan!');
+    setTimeout(() => setSuccessNotice(''), 3000);
+  };
+
   if (!isOpen) return null;
 
   const filteredBookings = filter === 'All' 
@@ -80,143 +99,294 @@ export default function AdminModal({ isOpen, onClose }) {
     : bookings.filter(b => b.status === filter);
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[150] bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 select-none">
       <div className="bg-white w-full max-w-4xl rounded-3xl overflow-hidden shadow-2xl border border-[#F5E4E4] flex flex-col max-h-[90vh]">
         
         {/* Header */}
-        <div className="bg-[#201E1F] text-white p-6 flex items-center justify-between">
+        <div className="bg-[#201E1F] text-white p-5 sm:p-6 flex items-center justify-between border-b border-white/10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#983132] text-white flex items-center justify-center">
               <UserCheck className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">ShreeJi Staff Admin Portal</h3>
-              <p className="text-xs text-[#F5E4E4]/70">Manage seat reservations & student inquiries</p>
+              <h3 className="text-lg font-bold text-white">ShreeJi Software & Admin Portal</h3>
+              <p className="text-xs text-[#F5E4E4]/70">Manage subscription benefits, pricing & student seat reservations</p>
             </div>
           </div>
           
           <button
             onClick={onClose}
-            className="text-white/70 hover:text-white bg-white/10 p-2 rounded-full"
+            className="text-white/70 hover:text-white bg-white/10 p-2 rounded-full transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Content Body */}
+        {/* Auth Gate */}
         {!isAuthenticated ? (
-          <div className="p-12 flex flex-col items-center justify-center text-center space-y-6">
-            <div className="w-16 h-16 rounded-full bg-[#FFF0E8] text-[#EB6A30] flex items-center justify-center">
+          <div className="p-8 sm:p-12 flex flex-col items-center justify-center text-center flex-1">
+            <div className="w-16 h-16 rounded-3xl bg-[#FFF0E8] text-[#983132] flex items-center justify-center mb-6 shadow-sm border border-[#F5E4E4]">
               <Lock className="w-8 h-8" />
             </div>
-            <div>
-              <h4 className="text-2xl font-bold text-[#201E1F]">Staff Authorization</h4>
-              <p className="text-sm text-[#201E1F]/60 mt-1">Enter your admin PIN to access booking records.</p>
-            </div>
+            <h4 className="text-xl font-bold text-[#201E1F] mb-2">Staff Access Authentication</h4>
+            <p className="text-xs sm:text-sm text-[#201E1F]/70 mb-6 max-w-sm">
+              Enter your manager PIN code to manage subscription plan benefits and view bookings. (Default PIN: 1234)
+            </p>
 
             <form onSubmit={handleLogin} className="w-full max-w-xs space-y-4">
               <input
                 type="password"
+                maxLength="8"
                 value={pin}
                 onChange={(e) => setPin(e.target.value)}
-                placeholder="Enter Staff PIN (1234)"
-                className="w-full px-4 py-3 rounded-2xl border border-[#F5E4E4] text-center font-bold text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-[#983132]"
+                placeholder="Enter PIN (1234)"
+                className="w-full px-4 py-3 rounded-2xl bg-[#FFF8F5] border border-[#F5E4E4] text-center text-lg tracking-widest font-mono font-bold text-[#201E1F] focus:outline-none focus:ring-2 focus:ring-[#983132]"
                 autoFocus
               />
-              {pinError && <p className="text-xs font-bold text-red-600">{pinError}</p>}
-              
+
+              {pinError && (
+                <p className="text-xs text-red-600 font-semibold">{pinError}</p>
+              )}
+
               <button
                 type="submit"
-                className="w-full bg-[#983132] text-white font-bold py-3 rounded-full text-sm shadow-md hover:bg-[#7f2728]"
+                className="w-full py-3.5 rounded-full bg-[#983132] hover:bg-[#7f2728] text-white font-semibold text-sm transition-all shadow-md"
               >
-                Access Dashboard
+                Unlock Software Portal
               </button>
             </form>
           </div>
         ) : (
-          <div className="p-6 flex-1 overflow-y-auto space-y-6">
+          <div className="flex-1 flex flex-col overflow-hidden">
             
-            {/* Top Toolbar */}
-            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#F5E4E4]">
+            {/* Top Navigation Tabs */}
+            <div className="bg-[#FFF8F5] px-6 py-3 border-b border-[#F5E4E4] flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
-                {['All', 'Pending', 'Confirmed', 'Contacted'].map(status => (
-                  <button
-                    key={status}
-                    onClick={() => setFilter(status)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors ${
-                      filter === status 
-                        ? 'bg-[#983132] text-white' 
-                        : 'bg-[#FFF8F5] text-[#201E1F]/70 border border-[#F5E4E4]'
-                    }`}
-                  >
-                    {status}
-                  </button>
-                ))}
+                <button
+                  onClick={() => setActiveTab('plans')}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+                    activeTab === 'plans' 
+                      ? 'bg-[#983132] text-white shadow-sm' 
+                      : 'bg-white text-[#201E1F] hover:bg-[#F5E4E4] border border-[#F5E4E4]'
+                  }`}
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Subscription Benefits & Points Manager</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('bookings')}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+                    activeTab === 'bookings' 
+                      ? 'bg-[#983132] text-white shadow-sm' 
+                      : 'bg-white text-[#201E1F] hover:bg-[#F5E4E4] border border-[#F5E4E4]'
+                  }`}
+                >
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>Seat Bookings ({bookings.length})</span>
+                </button>
               </div>
 
-              <button
-                onClick={fetchBookings}
-                className="text-xs font-bold text-[#983132] bg-[#F5E4E4] px-3 py-2 rounded-full flex items-center gap-1.5 hover:bg-[#983132] hover:text-white transition-colors"
-              >
-                <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
-                <span>Refresh</span>
-              </button>
-            </div>
-
-            {/* Bookings Table */}
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-[#201E1F]">
-                <thead className="bg-[#FFF8F5] uppercase text-[#983132] font-bold border-b border-[#F5E4E4]">
-                  <tr>
-                    <th className="p-3">Applicant</th>
-                    <th className="p-3">Contact</th>
-                    <th className="p-3">Plan / Shift</th>
-                    <th className="p-3">Start Date</th>
-                    <th className="p-3">Status</th>
-                    <th className="p-3">Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#F5E4E4]">
-                  {filteredBookings.map((b) => (
-                    <tr key={b.id} className="hover:bg-[#FFF8F5]/50">
-                      <td className="p-3 font-bold">{b.name}</td>
-                      <td className="p-3">
-                        <div>{b.phone}</div>
-                        <div className="text-[10px] text-gray-500">{b.email}</div>
-                      </td>
-                      <td className="p-3 font-semibold text-[#EB6A30]">{b.plan}</td>
-                      <td className="p-3">{b.startDate}</td>
-                      <td className="p-3">
-                        <span className={`px-2 py-1 rounded-full text-[10px] font-bold ${
-                          b.status === 'Confirmed' ? 'bg-green-100 text-green-800' :
-                          b.status === 'Contacted' ? 'bg-blue-100 text-blue-800' :
-                          'bg-amber-100 text-amber-800'
-                        }`}>
-                          {b.status}
-                        </span>
-                      </td>
-                      <td className="p-3">
-                        <select
-                          value={b.status}
-                          onChange={(e) => handleStatusChange(b.id, e.target.value)}
-                          className="bg-white border border-[#F5E4E4] rounded-lg p-1 text-[11px] font-semibold text-[#201E1F]"
-                        >
-                          <option value="Pending">Pending</option>
-                          <option value="Contacted">Contacted</option>
-                          <option value="Confirmed">Confirmed</option>
-                        </select>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              {filteredBookings.length === 0 && (
-                <div className="py-12 text-center text-gray-400 text-xs font-semibold">
-                  No booking inquiries match filter "{filter}".
-                </div>
+              {activeTab === 'plans' && (
+                <button
+                  onClick={resetToDefaultPlans}
+                  className="text-xs text-[#983132] hover:underline font-semibold"
+                >
+                  Reset Plans to Default
+                </button>
               )}
             </div>
+
+            {/* TAB 1: SUBSCRIPTION PLANS & BENEFITS MANAGER */}
+            {activeTab === 'plans' && (
+              <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                
+                {successNotice && (
+                  <div className="p-3.5 rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-bold flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-emerald-600" />
+                    <span>{successNotice}</span>
+                  </div>
+                )}
+
+                {/* Form to Add New Point / Benefit */}
+                <div className="bg-[#FFF8F5] p-5 rounded-2xl border border-[#F5E4E4] shadow-sm">
+                  <h4 className="text-sm font-bold text-[#201E1F] mb-3 flex items-center gap-2">
+                    <Plus className="w-4 h-4 text-[#EB6A30]" />
+                    <span>Add New Benefit / Point to Subscription Plan</span>
+                  </h4>
+
+                  <form onSubmit={handleAddPoint} className="space-y-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div>
+                        <label className="block text-[11px] font-bold text-[#201E1F]/70 mb-1">Target Plan</label>
+                        <select
+                          value={newPointPlanId}
+                          onChange={(e) => setNewPointPlanId(e.target.value)}
+                          className="w-full p-2.5 rounded-xl bg-white border border-[#F5E4E4] text-xs font-semibold text-[#201E1F]"
+                        >
+                          <option value="half-day">Half Day Plan (₹700)</option>
+                          <option value="full-day">Full Day Plan (₹1000)</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-[#201E1F]/70 mb-1">Benefit in English *</label>
+                        <input
+                          type="text"
+                          value={newPointEn}
+                          onChange={(e) => setNewPointEn(e.target.value)}
+                          placeholder="e.g. Free High-speed Scanner Access"
+                          className="w-full p-2.5 rounded-xl bg-white border border-[#F5E4E4] text-xs text-[#201E1F]"
+                          required
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-[#201E1F]/70 mb-1">Benefit in Gujarati (વૈકલ્પિક)</label>
+                        <input
+                          type="text"
+                          value={newPointGu}
+                          onChange={(e) => setNewPointGu(e.target.value)}
+                          placeholder="દા.ત. ફ્રી સ્કેનર અને પ્રિન્ટિંગ સપોર્ટ"
+                          className="w-full p-2.5 rounded-xl bg-white border border-[#F5E4E4] text-xs text-[#201E1F]"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex justify-end pt-1">
+                      <button
+                        type="submit"
+                        className="bg-[#EB6A30] hover:bg-[#d5571e] text-white font-semibold text-xs px-5 py-2.5 rounded-full transition-colors flex items-center gap-1.5 shadow-sm"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>Add Benefit Point to Website</span>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                {/* Plans List & Current Points */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {plans.map((plan) => (
+                    <div key={plan.id} className="bg-white p-5 rounded-2xl border border-[#F5E4E4] shadow-sm flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between pb-3 border-b border-[#F5E4E4]">
+                          <div>
+                            <h4 className="font-bold text-base text-[#201E1F]">{plan.nameEn} ({plan.nameGu})</h4>
+                            <p className="text-xs text-[#983132] font-semibold">{plan.taglineEn}</p>
+                          </div>
+
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs font-bold text-[#201E1F]">Price ₹</span>
+                            <input
+                              type="number"
+                              value={plan.price}
+                              onChange={(e) => updatePlan(plan.id, { price: e.target.value })}
+                              className="w-20 p-1.5 rounded-lg border border-[#F5E4E4] text-sm font-extrabold text-[#201E1F] text-center"
+                            />
+                          </div>
+                        </div>
+
+                        {/* List of Benefits */}
+                        <div className="mt-4 space-y-2">
+                          <p className="text-[11px] font-bold text-[#201E1F]/60 uppercase tracking-wider">
+                            Active Benefit Points ({plan.benefitsEn.length}):
+                          </p>
+
+                          {plan.benefitsEn.map((benefit, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-start justify-between gap-2 p-2.5 rounded-xl bg-[#FFF8F5] border border-[#F5E4E4] group"
+                            >
+                              <div className="flex-1 text-xs">
+                                <p className="font-semibold text-[#201E1F]">{benefit}</p>
+                                {plan.benefitsGu && plan.benefitsGu[idx] && (
+                                  <p className="text-[11px] text-[#201E1F]/60 mt-0.5">{plan.benefitsGu[idx]}</p>
+                                )}
+                              </div>
+
+                              <button
+                                onClick={() => removeBenefitPoint(plan.id, idx)}
+                                className="text-red-500 hover:text-red-700 p-1 rounded-md opacity-70 hover:opacity-100 transition-opacity"
+                                title="Remove benefit"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                    </div>
+                  ))}
+                </div>
+
+              </div>
+            )}
+
+            {/* TAB 2: SEAT BOOKINGS LIST */}
+            {activeTab === 'bookings' && (
+              <div className="flex-1 overflow-y-auto p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    {['All', 'Confirmed', 'Pending'].map((st) => (
+                      <button
+                        key={st}
+                        onClick={() => setFilter(st)}
+                        className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${
+                          filter === st ? 'bg-[#983132] text-white' : 'bg-[#FFF8F5] text-[#201E1F]'
+                        }`}
+                      >
+                        {st}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={fetchBookings}
+                    className="text-xs text-[#983132] hover:underline flex items-center gap-1 font-semibold"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" /> Refresh
+                  </button>
+                </div>
+
+                <div className="space-y-3">
+                  {filteredBookings.map((b) => (
+                    <div key={b.id} className="p-4 rounded-2xl bg-[#FFF8F5] border border-[#F5E4E4] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-bold text-sm text-[#201E1F]">{b.name}</h4>
+                          <span className="text-xs font-mono text-[#983132]">({b.phone})</span>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                            b.status === 'Confirmed' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                          }`}>
+                            {b.status}
+                          </span>
+                        </div>
+                        <p className="text-xs text-[#201E1F]/70 mt-1">
+                          Course: <strong>{b.exam || 'Competitive Exam'}</strong> • Plan: <strong>{b.plan}</strong>
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleStatusChange(b.id, 'Confirmed')}
+                          className="bg-emerald-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-emerald-700"
+                        >
+                          Confirm Seat
+                        </button>
+                        <button
+                          onClick={() => handleStatusChange(b.id, 'Pending')}
+                          className="bg-gray-200 text-[#201E1F] text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-gray-300"
+                        >
+                          Mark Pending
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
           </div>
         )}
