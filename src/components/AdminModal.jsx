@@ -27,7 +27,7 @@ export default function AdminModal({ isOpen, onClose }) {
       setPinError('');
       fetchBookings();
     } else {
-      setPinError('Invalid PIN code. Try 1234');
+      setPinError('Invalid PIN code. Please try again.');
     }
   };
 
@@ -130,7 +130,7 @@ export default function AdminModal({ isOpen, onClose }) {
             </div>
             <h4 className="text-xl font-bold text-[#201E1F] mb-2">Staff Access Authentication</h4>
             <p className="text-xs sm:text-sm text-[#201E1F]/70 mb-6 max-w-sm">
-              Enter your manager PIN code to manage subscription plan benefits and view bookings. (Default PIN: 1234)
+              Enter your manager PIN code to access the management software.
             </p>
 
             <form onSubmit={handleLogin} className="w-full max-w-xs space-y-4">
@@ -139,7 +139,7 @@ export default function AdminModal({ isOpen, onClose }) {
                 maxLength="8"
                 value={pin}
                 onChange={(e) => setPin(e.target.value)}
-                placeholder="Enter PIN (1234)"
+                placeholder="Enter PIN"
                 className="w-full px-4 py-3 rounded-2xl bg-[#FFF8F5] border border-[#F5E4E4] text-center text-lg tracking-widest font-mono font-bold text-[#201E1F] focus:outline-none focus:ring-2 focus:ring-[#983132]"
                 autoFocus
               />
