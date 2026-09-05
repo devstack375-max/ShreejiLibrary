@@ -55,11 +55,23 @@ export default function LocationContact() {
                 <div className="w-12 h-12 rounded-2xl bg-[#983132] text-white flex items-center justify-center shrink-0">
                   <MapPin className="w-6 h-6" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <h4 className="font-bold text-[#201E1F] text-base">{t('contact.addressLabel')}</h4>
                   <p className="text-sm text-[#201E1F]/80 mt-1">
                     {t('contact.addressVal')}
                   </p>
+                  <div className="mt-3">
+                    <a
+                      href="https://share.google/zwLt5rXFGlvjRy8ke"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#983132] hover:text-[#EB6A30] transition-colors"
+                    >
+                      <MapPin className="w-3.5 h-3.5" />
+                      <span>{t('contact.getDirections')}</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
                 </div>
               </motion.div>
 
@@ -124,7 +136,7 @@ export default function LocationContact() {
             <div className="rounded-3xl overflow-hidden shadow-2xl border border-[#F5E4E4] bg-white h-[450px] relative group">
               <iframe
                 title="ShreeJi Reading Library Location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5620641617477!2d77.2270034762024!3d28.612911975674723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce2daa9eb4d0b%3A0x717971125923e5d!2sIndia%20Gate!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                src="https://maps.google.com/maps?q=Shreeji+Reading+Library&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -137,10 +149,10 @@ export default function LocationContact() {
               <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-[#F5E4E4] flex items-center justify-between">
                 <div>
                   <p className="font-bold text-xs text-[#201E1F]">ShreeJi Reading Library</p>
-                  <p className="text-[11px] text-[#201E1F]/60">Air Conditioned • 06:00 AM – 11:00 PM</p>
+                  <p className="text-[11px] text-[#201E1F]/60">Air Conditioned • 24/7 Open</p>
                 </div>
                 <a 
-                  href="https://maps.google.com/?q=India+Gate,+New+Delhi"
+                  href="https://share.google/zwLt5rXFGlvjRy8ke"
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-[#983132] hover:bg-[#7f2728] text-white text-xs font-semibold px-4 py-2 rounded-full transition-colors flex items-center gap-1.5 shadow-sm"

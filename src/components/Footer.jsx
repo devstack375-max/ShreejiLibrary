@@ -73,6 +73,16 @@ export default function Footer({ onOpenAdmin }) {
               <p className="pt-2 text-xs text-[#F5E4E4]/70">
                 {isGu ? 'સંપર્ક નંબર:' : 'Contact:'} <a href="tel:+916353321530" className="text-white font-bold hover:text-[#EB6A30]">+91 63533 21530</a>
               </p>
+              <p className="pt-1.5 text-xs">
+                <a 
+                  href="https://share.google/zwLt5rXFGlvjRy8ke" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-[#EB6A30] hover:text-white transition-colors underline font-semibold inline-flex items-center gap-1"
+                >
+                  📍 {isGu ? 'ગૂગલ મેપ્સ લોકેશન' : 'View on Google Maps'}
+                </a>
+              </p>
             </div>
           </div>
 
